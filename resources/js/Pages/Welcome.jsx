@@ -22,14 +22,14 @@ export default function Welcome({ auth }) {
                                     </Link>
                                 </div>
 
-                                <div className="space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                                <div className="hidden sm:block space-x-8 sm:-my-px sm:ml-10 sm:flex">
                                     <NavLink href={route('home')} >
                                         Web Snapper
                                     </NavLink>
                                 </div>
                             </div>
 
-                            <div className="sm:flex sm:items-center sm:ml-6">
+                            <div className="flex items-center ml-6">
                                 <div className="ml-3 relative">
                                     {auth.user ? (
                                         <Link
