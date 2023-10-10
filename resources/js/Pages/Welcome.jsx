@@ -9,8 +9,8 @@ export default function Welcome({ auth }) {
         <>
             <Head title="Welcome" />
             <div className="relative">
-                <LeftShade/>
-                <RightShade/>
+                <LeftShade />
+                <RightShade />
 
                 <nav className="w-[max(60%,_320px)] m-auto border-b-[1px] border-gray-200">
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -62,7 +62,21 @@ export default function Welcome({ auth }) {
                 </nav>
 
             </div>
-            <div className="container mx-auto"></div>
+
+            <div className="relative pt-32 pb-10 md:pt-40 md:pb-16">
+                <div className="max-w-3xl mx-auto text-center pb-12 md:pb-16">
+                    <h1 className="text-4xl lg:text-6xl mb-4" >Videos can attract a different audience</h1>
+                    <p className="text-xl text-gray-500 mb-8">Easily record and share with your friends, Super charge your productivity with Web Snapper.</p>
+                    <div className="max-w-xs mx-auto sm:max-w-none sm:flex sm:justify-center">
+                        <div >
+                            <a className="px-4 py-2 rounded text-white bg-stone-900 hover:bg-stone-800 w-full mb-4 sm:w-auto sm:mb-0" href="#">Start free trial</a>
+                        </div>
+                        <div className='hidden'>
+                            <a className="btn text-white bg-gray-700 hover:bg-gray-800 w-full sm:w-auto sm:ml-4" href="#">Learn more</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </>
     );
 }
