@@ -3,6 +3,7 @@ import ApplicationLogo from '@/Components/ApplicationLogo';
 import NavLink from '@/Components/NavLink';
 import LeftShade from '@/Components/Design/LeftShade';
 import RightShade from '@/Components/Design/RightShade';
+import Footer from '@/Components/Design/Footer';
 
 export default function Welcome({ auth }) {
     return (
@@ -77,6 +78,8 @@ export default function Welcome({ auth }) {
                     </div>
                 </div>
             </div>
+
+            <Footer />
         </>
     );
 }
