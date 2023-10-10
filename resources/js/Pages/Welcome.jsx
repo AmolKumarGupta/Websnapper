@@ -79,6 +79,7 @@ export default function Welcome({ auth }) {
                 </div>
             </div>
 
+            <div className='py-14'></div>
             <Footer />
         </>
     );
