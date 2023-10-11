@@ -70,7 +70,7 @@ export default function Welcome({ auth }) {
                     <p className="text-xl text-gray-500 mb-8">Easily record and share with your friends, Super charge your productivity with Web Snapper.</p>
                     <div className="max-w-xs mx-auto sm:max-w-none sm:flex sm:justify-center">
                         <div >
-                            <Link href={ route('register') } className="px-4 py-2 rounded text-white bg-stone-900 hover:bg-stone-800 w-full mb-4 sm:w-auto sm:mb-0">Start free trial</Link>
+                            <Link href={ route('register') } className="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">Start free trial</Link>
                         </div>
                         <div className='hidden'>
                             <Link href='#' className="btn text-white bg-gray-700 hover:bg-gray-800 w-full sm:w-auto sm:ml-4">Learn more</Link>
