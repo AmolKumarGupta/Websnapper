@@ -70,10 +70,10 @@ export default function Welcome({ auth }) {
                     <p className="text-xl text-gray-500 mb-8">Easily record and share with your friends, Super charge your productivity with Web Snapper.</p>
                     <div className="max-w-xs mx-auto sm:max-w-none sm:flex sm:justify-center">
                         <div >
-                            <a className="px-4 py-2 rounded text-white bg-stone-900 hover:bg-stone-800 w-full mb-4 sm:w-auto sm:mb-0" href="#">Start free trial</a>
+                            <Link href={ route('register') } className="px-4 py-2 rounded text-white bg-stone-900 hover:bg-stone-800 w-full mb-4 sm:w-auto sm:mb-0">Start free trial</Link>
                         </div>
                         <div className='hidden'>
-                            <a className="btn text-white bg-gray-700 hover:bg-gray-800 w-full sm:w-auto sm:ml-4" href="#">Learn more</a>
+                            <Link href='#' className="btn text-white bg-gray-700 hover:bg-gray-800 w-full sm:w-auto sm:ml-4">Learn more</Link>
                         </div>
                     </div>
                 </div>
