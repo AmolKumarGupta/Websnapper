@@ -21,6 +21,7 @@ class AssignClient
      */
     public function handle(Registered $event): void
     {
-        
+        /** @var Illuminate\Auth\Events\Registered $event **/
+        $event->user->syncRoles(['client']);
     }
 }
