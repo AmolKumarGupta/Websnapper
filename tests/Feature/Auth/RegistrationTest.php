@@ -2,10 +2,11 @@
 
 namespace Tests\Feature\Auth;
 
-use App\Providers\RouteServiceProvider;
-use Database\Seeders\RoleSeeder;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+use App\Models\User;
+use Database\Seeders\RoleSeeder;
+use App\Providers\RouteServiceProvider;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class RegistrationTest extends TestCase
 {
@@ -34,4 +35,22 @@ class RegistrationTest extends TestCase
         $this->assertAuthenticated();
         $response->assertRedirect(RouteServiceProvider::HOME);
     }
+
+    public function test_created_user_is_client(): void 
+    {
+        $this->seed([
+            RoleSeeder::class,
+        ]);
+
+        $response = $this->post('/register', [
+            'name' => 'Test User',
+            'email' => 'test@example.com',
+            'password' => 'password',
+            'password_confirmation' => 'password',
+        ]);
+
+        $user = User::latest()->first();
+        $this->assertTrue($user->hasRole('client'));
+    }
+    
 }
