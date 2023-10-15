@@ -17,7 +17,7 @@ export default function Dashboard({ auth, usedVideos, totalVideos }) {
                         <div className="absolute top-1/2 -translate-y-1/2 right-4 flex items-center justify-center">
                             <button
                                 type="button"
-                                className="rounded-2xl bg-blue-500 bg-opacity-80 px-4 py-2 text-sm font-medium text-white hover:bg-opacity-70 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
+                                className="rounded-2xl bg-indigo-400 bg-opacity-80 px-4 py-2 text-sm font-medium text-white hover:bg-opacity-70 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
                             >
                                 { usedVideos } / { totalVideos } Videos
                             </button>
