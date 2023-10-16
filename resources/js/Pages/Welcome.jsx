@@ -8,7 +8,7 @@ import Footer from '@/Components/Design/Footer';
 export default function Welcome({ auth }) {
     return (
         <>
-            <Head title="Welcome" />
+            <Head title="Easily record and share with your friends  " />
             <div className="relative">
                 <LeftShade />
                 <RightShade />
