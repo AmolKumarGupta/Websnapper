@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\VideoStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -16,4 +17,8 @@ class Video extends Model
         "status",
     ];
 
+    protected $casts = [
+        'status' => VideoStatus::class,
+    ];
+    
 }
