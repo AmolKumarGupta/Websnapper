@@ -29,7 +29,7 @@ export default function Recorder() {
         mediaRecorder.current = undefined;
         
         setRecording(false);
-        // download(URL.createObjectURL(recordBlob));
+        postVideo(URL.createObjectURL(recordBlob));
       }
       
       mediaRecorder.current.start();
@@ -56,6 +56,10 @@ export default function Recorder() {
       a.click();
       document.body.removeChild(a); 
     }
+  };
+
+  const postVideo = (data) => {
+    
   };
 
   return <>
