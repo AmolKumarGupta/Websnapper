@@ -24,8 +24,11 @@ export default function Recorder() {
 
       mediaRecorder.current.onstop = () =>  {
         const recordBlob = new Blob(chunk, { type: 'video/webm' });
+        
+        stream.getTracks().forEach(track => track.stop());
+        mediaRecorder.current = undefined;
+        
         setRecording(false);
-
         // download(URL.createObjectURL(recordBlob));
       }
       
