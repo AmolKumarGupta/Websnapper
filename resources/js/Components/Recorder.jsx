@@ -1,4 +1,5 @@
 import { useRef, useState } from "react"
+import { router } from '@inertiajs/react'
 
 export default function Recorder() {
     const [recording, setRecording] = useState(false);
@@ -29,7 +30,7 @@ export default function Recorder() {
                 mediaRecorder.current = undefined;
 
                 setRecording(false);
-                postVideo(URL.createObjectURL(recordBlob));
+                postVideo(recordBlob);
             }
 
             mediaRecorder.current.start();
@@ -59,8 +60,13 @@ export default function Recorder() {
     };
 
     const postVideo = (data) => {
-        // const formData = new FormData();
-        // formData.append("video", videoFile);
+        let fd = new FormData();
+        fd.append('data', data);
+
+        router.post(route('videos.store'), {
+            _method: 'post',
+            video: fd.get('data'),
+        })
     };
 
     return <>

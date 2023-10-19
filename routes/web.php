@@ -1,7 +1,10 @@
 <?php
 
 use App\Http\Controllers\Auth\DashBoardController;
-use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\{
+    ProfileController,
+    VideoController
+};
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -32,7 +35,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::resource('videos', VidoeController::class)->except(['create', 'edit']);
+    Route::resource('videos', VideoController::class)->except(['create', 'edit']);
 });
 
 require __DIR__.'/auth.php';
