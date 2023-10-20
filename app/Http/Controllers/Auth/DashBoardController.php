@@ -15,7 +15,7 @@ class DashBoardController extends Controller
         
         $totalVideos = 25;
         $usedVideos = $user->videos()->count();
-        $videos = $user->videos()->limit(2)->get()->toArray();
+        $videos = $user->videos()->limit(10)->get()->toArray();
 
         return Inertia::render('Dashboard', compact('usedVideos', 'totalVideos', 'videos'));
     }

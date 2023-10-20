@@ -1,8 +1,13 @@
+import Video from '@/Components/Video';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, router } from '@inertiajs/react';
-import { useEffect } from 'react';
+import { useMemo } from 'react';
 
-export default function Dashboard({ auth, usedVideos, totalVideos }) {
+export default function Dashboard({ auth, usedVideos, totalVideos, videos }) {
+    
+    const videoList = useMemo(() => {
+        return videos.map((v) => <Video key={v.id} data={v} />)
+    }, [videos]);
 
     return (
         <AuthenticatedLayout
@@ -27,9 +32,11 @@ export default function Dashboard({ auth, usedVideos, totalVideos }) {
                     </div>
 
                     <div className="relative p-6 pt-3 bg-white shadow-sm sm:rounded-b-lg">
-                        {!usedVideos
+                        {
+                            !usedVideos
                             ? <div className="my-16 text-gray-400 font-medium text-center text-2xl font-sans">No videos</div>
-                            : <></>}
+                            : <div className='flex flex-col sm:flex-row items-center gap-4'>{videoList}</div>
+                        }
                     </div>
                 </div>
             </div>
