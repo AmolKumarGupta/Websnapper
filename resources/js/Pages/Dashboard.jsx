@@ -1,7 +1,9 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head } from '@inertiajs/react';
+import { Head, router } from '@inertiajs/react';
+import { useEffect } from 'react';
 
 export default function Dashboard({ auth, usedVideos, totalVideos }) {
+
     return (
         <AuthenticatedLayout
             user={auth.user}
