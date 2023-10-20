@@ -15,7 +15,7 @@ class VideoController extends Controller
     function store(Request $request): void 
     {
         $request->validate([
-            'video' => 'required',
+            'video' => ['required', 'max:51200'],
         ]);
 
         StoreVideo::handle(auth()->user(), $request->file('video'));
