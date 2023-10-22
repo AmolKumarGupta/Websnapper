@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Actions\StoreVideo;
 use App\Models\Video;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class VideoController extends Controller
 {
@@ -30,10 +31,12 @@ class VideoController extends Controller
 
         }else {
             $videoHash = $video;
-            $video = Video::findOrFail(base64_decode($videoHash));
+            $video = Video::findOrFail(hashget($videoHash, true));
         }
 
         $this->authorize($video);
+
+        return Inertia::render('Video', []);
     }
 
     function update(Request $request, $video) 
