@@ -36,6 +36,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::resource('videos', VideoController::class)->except(['create', 'edit']);
+    Route::get('play/{video}', [VideoController::class, 'play'])->name('video.play');
 });
 
 require __DIR__.'/auth.php';
