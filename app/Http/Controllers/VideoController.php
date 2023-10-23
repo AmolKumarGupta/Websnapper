@@ -50,7 +50,7 @@ class VideoController extends Controller
             $video = Video::findOrFail(hashget($videoHash, true));
         }
 
-        $this->authorize($video);
+        $this->authorize('view', $video);
 
         if (! $video->path) {
             return abort(404);
