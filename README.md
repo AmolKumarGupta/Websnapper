@@ -13,6 +13,8 @@ Websnapper is a SaaS (Software as a Service) project aimed at enabling screen re
 
 ## Installation (Coming Soon)
 
+> Also Follow the Step [Telescope Local Only](https://laravel.com/docs/10.x/telescope#local-only-installation)
+
 ## Docs (Coming Soon)
 
 ## License
