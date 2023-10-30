@@ -1,5 +1,5 @@
 export default function ApplicationLogo(props) {
     return (
-        <img src="/favicon-32x32.png" alt="logo" {...props} />
+        <img src="/android-chrome-192x192.png" alt="logo" style={{filter: "saturate(0%) brightness(70%) contrast(300%)"}} {...props} />
     );
 }
