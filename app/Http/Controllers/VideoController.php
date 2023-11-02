@@ -37,7 +37,7 @@ class VideoController extends Controller
 
         $this->authorize($video);
 
-        return Inertia::render('Video', compact('videoHash'));
+        return Inertia::render('Video', compact('videoHash', 'video'));
     }
 
     function play(Request $request, string $video) {
@@ -68,6 +68,17 @@ class VideoController extends Controller
     function destroy(Request $request, $video) 
     {
         // 
+    }
+
+    function changeTitle(Request $request) 
+    {
+        $video = Video::findOrFail($request->videoId);
+        $this->authorize('view', $video);
+
+        if ($request->title && $video->title != $request->title) {
+            $video->title = $request->title;
+            $video->save();
+        }
     }
 
 }
