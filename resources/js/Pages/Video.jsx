@@ -4,7 +4,21 @@ import { useRef } from 'react';
 
 
 export default function Video({ auth, videoHash, video }) {
-    const titleInput = useRef(null);
+    const titleInput = useRef(null)
+    
+    function update(ev) {
+        let title = ev.target.value;
+        if (title == video.title || title == '') {
+            titleInput.current.value = video.title;
+            return;
+        }
+
+        router.post(route('video.title'), {
+            _method: 'post',
+            videoId: video.id,
+            title
+        })
+    }
 
     return <AuthenticatedLayout 
             user={auth.user}
@@ -16,7 +30,7 @@ export default function Video({ auth, videoHash, video }) {
             <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div className="relative bg-white overflow-hidden shadow-sm sm:rounded-t-lg">
                     <div className="px-6 py-3 text-gray-900">
-                        <input ref={titleInput} className="w-1/2 border-0 outline-none focus:border-indigo-500 focus:ring-indigo-500 rounded-md focus:shadow-sm block" value={video.title} />
+                        <input ref={titleInput} onBlur={update} className="w-1/2 border-0 outline-none focus:border-indigo-500 focus:ring-indigo-500 rounded-md focus:shadow-sm block" defaultValue={video.title} />
                     </div>
                 </div>
 

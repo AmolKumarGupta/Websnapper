@@ -70,4 +70,15 @@ class VideoController extends Controller
         // 
     }
 
+    function changeTitle(Request $request) 
+    {
+        $video = Video::findOrFail($request->videoId);
+        $this->authorize('view', $video);
+
+        if ($request->title && $video->title != $request->title) {
+            $video->title = $request->title;
+            $video->save();
+        }
+    }
+
 }
