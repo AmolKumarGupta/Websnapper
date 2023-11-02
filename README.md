@@ -3,7 +3,7 @@ Websnapper is a SaaS (Software as a Service) project aimed at enabling screen re
 
 
 <div align="center" style="display:flex; gap: 1rem;">
-    <img src="https://github.com/AmolKumarGupta/Websnapper/assets/88397611/821efec7-6b42-4c71-b436-1982d8561dc9" alt="welcome-page" width="400" >
+    <img src="https://github.com/AmolKumarGupta/Websnapper/assets/88397611/37efe3f7-4f67-4797-a7c3-c0206a6d7f16" alt="welcome-page" width="400" >
 </div>
 
 
