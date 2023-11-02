@@ -37,7 +37,7 @@ class VideoController extends Controller
 
         $this->authorize($video);
 
-        return Inertia::render('Video', compact('videoHash'));
+        return Inertia::render('Video', compact('videoHash', 'video'));
     }
 
     function play(Request $request, string $video) {
