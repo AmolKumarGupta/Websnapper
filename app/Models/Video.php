@@ -18,6 +18,10 @@ class Video extends Model
         "status",
     ];
 
+    protected $hidden = [
+        "path",
+    ];
+
     protected $casts = [
         'status' => VideoStatus::class,
     ];
