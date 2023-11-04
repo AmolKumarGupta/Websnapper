@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Actions\StoreVideo;
-use App\Models\Video;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
-use VideoStream;
+use App\Models\Video;
+use App\Actions\StoreVideo;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 class VideoController extends Controller
 {
@@ -28,15 +28,16 @@ class VideoController extends Controller
     {
         if ($request->get('id')) {
             $videoHash = base64_encode($request->get('id'));
-            $video = Video::findOrFail($request->get('id'));
+            $video = Video::with(['user:id,name'])->findOrFail($request->get('id'));
 
         }else {
             $videoHash = $video;
-            $video = Video::findOrFail(hashget($videoHash, true));
+            $video = Video::with(['user:id,name'])->findOrFail(hashget($videoHash, true));
         }
 
         $this->authorize($video);
 
+        $video->formattedCreatedAt = Carbon::parse($video->created_at)->format("d M, Y");
         return Inertia::render('Video', compact('videoHash', 'video'));
     }
 
