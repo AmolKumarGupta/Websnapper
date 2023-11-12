@@ -35,7 +35,7 @@ export default function Dashboard({ auth, usedVideos, totalVideos, videos }) {
                         {
                             !usedVideos
                             ? <div className="my-16 text-gray-400 font-medium text-center text-2xl font-sans">No videos</div>
-                            : <div className='flex flex-col sm:flex-row items-center gap-4'>{videoList}</div>
+                            : <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 grid-flow-row gap-4'>{videoList}</div>
                         }
                     </div>
                 </div>
