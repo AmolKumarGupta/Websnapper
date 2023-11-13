@@ -12,7 +12,36 @@ Websnapper is a SaaS (Software as a Service) project aimed at enabling screen re
 - Video sharing
 - Private and Public Access
 
-## Installation (Coming Soon)
+## Installation
+
+clone the repository from gitub
+```
+git clone https://github.com/AmolKumarGupta/Websnapper.git
+```
+
+install composer packages 
+
+```
+composer install
+```
+
+install npm packages 
+
+```
+npm install
+```
+
+copy `.env.example` to `.env` and setup your database.
+if APP_KEY is not preset then generate it
+```
+php artisan key:generate --ansi
+```
+
+seed database
+```
+php artisan db:seed
+```
+
 
 > Also Follow the Step [Telescope Local Only](https://laravel.com/docs/10.x/telescope#local-only-installation)
 
