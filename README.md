@@ -42,6 +42,22 @@ seed database
 php artisan db:seed
 ```
 
+build assets
+
+```
+npm run build
+```
+
+for development, use 
+
+```
+npm run dev
+```
+
+start server
+```
+php artisan serve
+```
 
 > Also Follow the Step [Telescope Local Only](https://laravel.com/docs/10.x/telescope#local-only-installation)
 
