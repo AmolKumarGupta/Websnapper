@@ -5,7 +5,8 @@ import { Fragment, useRef, useState } from 'react';
 
 
 export default function Video({ auth, videoHash, video }) {
-    const titleInput = useRef(null)
+    const titleInput = useRef(null);
+    const shareEmailInput = useRef(null);
     const [isOpen, setIsOpen] = useState(false);
 
     function update(ev) {
@@ -22,6 +23,19 @@ export default function Video({ auth, videoHash, video }) {
         })
     }
 
+    function copyLink(e) {
+        
+        window.navigator.clipboard.writeText(route('videos.show', videoHash));
+
+        let prev = e.target.innerHTML;
+        e.target.innerHTML = 'Copied!';
+
+        let timer = setTimeout(() => {
+            e.target.innerHTML = prev;
+            clearTimeout(timer);
+        }, 2000);
+    }
+
     return <AuthenticatedLayout
         user={auth.user}
         header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Video</h2>}
@@ -34,7 +48,7 @@ export default function Video({ auth, videoHash, video }) {
                     <div className="px-6 py-3 text-gray-900 flex justify-between">
                         <input id="title-section-input" ref={titleInput} onBlur={update} className="w-2/3 sm:w-1/2 border-0 outline-none focus:border-indigo-500 focus:ring-indigo-500 rounded-md focus:shadow-sm block" defaultValue={video.title} />
 
-                        <div className='flex items-center' onClick={() => setIsOpen(true)}>
+                        <div className='flex items-center' role='button' tabIndex='0' onClick={() => setIsOpen(true)} onKeyDown={(e) => e.key=='Enter' && setIsOpen(true)}>
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-share-2 cursor-pointer"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
                         </div>
                     </div>
@@ -88,10 +102,19 @@ export default function Video({ auth, videoHash, video }) {
                                     Share
                                 </Dialog.Title>
                                 <div className="mt-2">
-                                    
+                                    <p>User's Email</p>
+                                    <input ref={shareEmailInput} id="share-email-input" className="w-full mt-1 focus:border-indigo-500 focus:ring-indigo-500 rounded-md focus:shadow-sm block" placeholder='example.com' />
                                 </div>
 
-                                <div className="mt-4 text-end">
+                                <div className="mt-4 flex justify-end gap-2">
+                                    <button
+                                        type="button"
+                                        className="inline-flex justify-center rounded-md border border-transparent bg-green-300 px-4 py-2 text-sm font-medium text-gray-900 hover:bg-green-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2"
+                                        onClick={copyLink}
+                                    >
+                                        Give Access & Copy
+                                    </button>
+
                                     <button
                                         type="button"
                                         className="inline-flex justify-center rounded-md border border-transparent bg-gray-200 px-4 py-2 text-sm font-medium text-gray-900 hover:bg-gray-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-500 focus-visible:ring-offset-2"
