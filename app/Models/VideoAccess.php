@@ -46,4 +46,12 @@ class VideoAccess extends Model
         ]);
     }
 
+    public static function canView(Model $model, Video $video): bool
+    {
+        return static::where('video_id', $video->id)
+            ->where('model_type', get_class($model))
+            ->where('model_id', $model->id)
+            ->first() !== null;
+    }
+
 }
