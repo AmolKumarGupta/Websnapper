@@ -82,4 +82,16 @@ class VideoController extends Controller
         }
     }
 
+    function giveAccess(Request $request) 
+    {
+        $video = Video::findOrFail($request->videoId);
+        $this->authorize('view', $video);
+
+        $request->validate([
+            "userEmail" => 'required|email',
+        ]);
+
+        
+    }
+
 }

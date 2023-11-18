@@ -1,13 +1,18 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Dialog, Transition } from '@headlessui/react';
-import { Head, router } from '@inertiajs/react';
+import { Head, router, useForm } from '@inertiajs/react';
 import { Fragment, useRef, useState } from 'react';
 
 
 export default function Video({ auth, videoHash, video }) {
     const titleInput = useRef(null);
-    const shareEmailInput = useRef(null);
     const [isOpen, setIsOpen] = useState(false);
+
+    const { data, setData, post, processing, errors } = useForm({
+        videoId: video.id,
+        userEmail: '',
+    })
+      
 
     function update(ev) {
         let title = ev.target.value;
@@ -34,6 +39,10 @@ export default function Video({ auth, videoHash, video }) {
             e.target.innerHTML = prev;
             clearTimeout(timer);
         }, 2000);
+    }
+
+    function giveAccessAndCopy(e) {
+        post(route('video.access'), { onSuccess: () => copyLink(e) })
     }
 
     return <AuthenticatedLayout
@@ -103,14 +112,16 @@ export default function Video({ auth, videoHash, video }) {
                                 </Dialog.Title>
                                 <div className="mt-2">
                                     <p>User's Email</p>
-                                    <input ref={shareEmailInput} id="share-email-input" className="w-full mt-1 focus:border-indigo-500 focus:ring-indigo-500 rounded-md focus:shadow-sm block" placeholder='example.com' />
+                                    <input value={data.userEmail} onChange={e => setData('userEmail', e.target.value)} type="email" id="share-email-input" className="w-full mt-1 focus:border-indigo-500 focus:ring-indigo-500 rounded-md focus:shadow-sm block" placeholder='example.com' />
+                                    { errors.userEmail && <div className='text-red-500'>{errors.userEmail}</div> }
                                 </div>
 
                                 <div className="mt-4 flex justify-end gap-2">
                                     <button
                                         type="button"
                                         className="inline-flex justify-center rounded-md border border-transparent bg-green-300 px-4 py-2 text-sm font-medium text-gray-900 hover:bg-green-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2"
-                                        onClick={copyLink}
+                                        onClick={giveAccessAndCopy} 
+                                        disabled={processing} 
                                     >
                                         Give Access & Copy
                                     </button>
