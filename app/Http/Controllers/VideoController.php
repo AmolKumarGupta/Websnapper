@@ -39,7 +39,13 @@ class VideoController extends Controller
         $this->authorize($video);
 
         $video->formattedCreatedAt = Carbon::parse($video->created_at)->format("d M, Y");
-        return Inertia::render('Video', compact('videoHash', 'video'));
+
+        /** @var \App\Models\User $authUser */
+        $authUser = auth()->user();
+
+        $can = ['edit' => $authUser->can('edit', $video)];
+
+        return Inertia::render('Video', compact('can', 'videoHash', 'video'));
     }
 
     function play(Request $request, string $video) {
@@ -75,7 +81,7 @@ class VideoController extends Controller
     function changeTitle(Request $request) 
     {
         $video = Video::findOrFail($request->videoId);
-        $this->authorize('view', $video);
+        $this->authorize('edit', $video);
 
         if ($request->title && $video->title != $request->title) {
             $video->title = $request->title;
@@ -86,7 +92,7 @@ class VideoController extends Controller
     function giveAccess(Request $request) 
     {
         $video = Video::findOrFail($request->videoId);
-        $this->authorize('view', $video);
+        $this->authorize('edit', $video);
 
         $request->validate([
             "userEmail" => 'required|email',
