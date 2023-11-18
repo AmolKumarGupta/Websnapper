@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Inertia\Inertia;
 use App\Models\Video;
 use App\Actions\StoreVideo;
+use App\Models\VideoAccess;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -91,7 +92,7 @@ class VideoController extends Controller
             "userEmail" => 'required|email',
         ]);
 
-        
+        VideoAccess::give($video, $request->userEmail);
     }
 
 }
