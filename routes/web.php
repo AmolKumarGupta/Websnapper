@@ -38,6 +38,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('videos', VideoController::class)->except(['create', 'edit']);
     Route::get('play/{video}', [VideoController::class, 'play'])->name('video.play');
     Route::post('video/title', [VideoController::class, 'changeTitle'])->name('video.title');
+    Route::post('video/access', [VideoController::class, 'giveAccess'])->name('video.access');
 });
 
 require __DIR__.'/auth.php';
