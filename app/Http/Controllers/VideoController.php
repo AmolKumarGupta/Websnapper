@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use Inertia\Inertia;
 use App\Models\Video;
 use App\Actions\StoreVideo;
+use App\Models\User;
 use App\Models\VideoAccess;
+use App\Models\VideoView;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -44,8 +46,9 @@ class VideoController extends Controller
         $authUser = auth()->user();
 
         $can = ['edit' => $authUser->can('edit', $video)];
+        $view_count = $video->views();
 
-        return Inertia::render('Video', compact('can', 'videoHash', 'video'));
+        return Inertia::render('Video', compact('can', 'videoHash', 'video', 'view_count'));
     }
 
     function play(Request $request, string $video) {
@@ -99,6 +102,38 @@ class VideoController extends Controller
         ]);
 
         VideoAccess::give($video, $request->userEmail);
+    }
+
+    function views(Request $request)
+    {
+        $request->validate([
+            "videoId" => 'required',
+        ]);
+
+        $video = Video::findOrFail($request->videoId);
+        if ($video == null) {
+            return $this->index($request);
+        }
+
+        $prev = VideoView::where("video_id", $video->id)
+            ->where("model_type", User::class)
+            ->where("model_id", auth()->id())
+            ->latest()
+            ->first();
+
+        if (
+            $prev 
+            && $prev->created_at 
+            && now()->diffInMinutes($prev->created_at, true) < 1
+        ) {
+            return $this->index($request);
+        }
+            
+        VideoView::create([
+            "video_id" => $video->id,
+            "model_type" => User::class,
+            "model_id" => auth()->id(),
+        ]);
     }
 
 }

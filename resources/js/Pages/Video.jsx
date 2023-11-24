@@ -4,9 +4,10 @@ import { Head, router, useForm } from '@inertiajs/react';
 import { Fragment, useRef, useState } from 'react';
 
 
-export default function Video({ auth, can, videoHash, video }) {
+export default function Video({ auth, can, videoHash, video, view_count }) {
     const titleInput = useRef(null);
     const [isOpen, setIsOpen] = useState(false);
+    const [addedAsView, setView] = useState(false);
 
     const { data, setData, post, processing, errors } = useForm({
         videoId: video.id,
@@ -53,6 +54,18 @@ export default function Video({ auth, can, videoHash, video }) {
         post(route('video.access'), { onSuccess: () => copyLink(e) })
     }
 
+    function handlePlay(e) {
+        if (addedAsView) {
+            return;
+        }
+
+        router.post(route('video.views'), { _method: 'post', videoId: video.id }, {
+            preserveScroll: true,
+            only: [],
+            onSuccess: () => setView(true)
+        })
+    }
+
     return <AuthenticatedLayout
         user={auth.user}
         header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Video</h2>}
@@ -76,7 +89,7 @@ export default function Video({ auth, can, videoHash, video }) {
                 </div>
 
                 <main className="flex flex-wrap gap-4 p-6 bg-white shadow-sm sm:rounded-b-lg">
-                    <video className='rounded max-w-[850px]' width="100%" controls preload="auto" src={route('video.play', videoHash)} ></video>
+                    <video onPlay={handlePlay} className='rounded max-w-[850px]' width="100%" controls preload="auto" src={route('video.play', videoHash)} ></video>
 
                     <div className='p-4 pt-0'>
                         <div>
@@ -84,6 +97,9 @@ export default function Video({ auth, can, videoHash, video }) {
                         </div>
                         <div>
                             <span className='font-medium'>Video by:</span> <span className='capitalize'>{video.user.name}</span>
+                        </div>
+                        <div>
+                            <span className='font-medium'>Views:</span> <span className='capitalize'>{view_count}</span>
                         </div>
                     </div>
                 </main>
