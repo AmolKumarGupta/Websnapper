@@ -39,6 +39,7 @@ Route::middleware('auth')->group(function () {
     Route::get('play/{video}', [VideoController::class, 'play'])->name('video.play');
     Route::post('video/title', [VideoController::class, 'changeTitle'])->name('video.title');
     Route::post('video/access', [VideoController::class, 'giveAccess'])->name('video.access');
+    Route::post('video/views', [VideoController::class, 'views'])->name('video.views');
 });
 
 require __DIR__.'/auth.php';

@@ -101,4 +101,9 @@ class VideoController extends Controller
         VideoAccess::give($video, $request->userEmail);
     }
 
+    function views(Request $request)
+    {
+        
+    }
+
 }
