@@ -61,6 +61,7 @@ export default function Video({ auth, can, videoHash, video }) {
 
         router.post(route('video.views'), { _method: 'post', videoId: video.id }, {
             preserveScroll: true,
+            only: [],
             onSuccess: () => setView(true)
         })
     }

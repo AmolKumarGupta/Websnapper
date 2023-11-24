@@ -111,10 +111,24 @@ class VideoController extends Controller
 
         $video = Video::findOrFail($request->videoId);
         if ($video == null) {
-            return response()->json(["err" => "video not found"], 403);
+            return $this->index($request);
+        }
+
+        $prev = VideoView::where("video_id", $video->id)
+            ->where("model_type", User::class)
+            ->where("model_id", auth()->id())
+            ->latest()
+            ->first();
+
+        if (
+            $prev 
+            && $prev->created_at 
+            && now()->diffInMinutes($prev->created_at, true) < 1
+        ) {
+            return $this->index($request);
         }
             
-        VideoView::insert([
+        VideoView::create([
             "video_id" => $video->id,
             "model_type" => User::class,
             "model_id" => auth()->id(),
