@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use Inertia\Inertia;
 use App\Models\Video;
 use App\Actions\StoreVideo;
+use App\Models\User;
 use App\Models\VideoAccess;
+use App\Models\VideoView;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -103,7 +105,20 @@ class VideoController extends Controller
 
     function views(Request $request)
     {
-        
+        $request->validate([
+            "videoId" => 'required',
+        ]);
+
+        $video = Video::findOrFail($request->videoId);
+        if ($video == null) {
+            return response()->json(["err" => "video not found"], 403);
+        }
+            
+        VideoView::insert([
+            "video_id" => $video->id,
+            "model_type" => User::class,
+            "model_id" => auth()->id(),
+        ]);
     }
 
 }
