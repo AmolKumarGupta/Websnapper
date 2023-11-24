@@ -46,8 +46,9 @@ class VideoController extends Controller
         $authUser = auth()->user();
 
         $can = ['edit' => $authUser->can('edit', $video)];
+        $view_count = $video->views();
 
-        return Inertia::render('Video', compact('can', 'videoHash', 'video'));
+        return Inertia::render('Video', compact('can', 'videoHash', 'video', 'view_count'));
     }
 
     function play(Request $request, string $video) {

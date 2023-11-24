@@ -6,6 +6,7 @@ use App\Enums\VideoStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Video extends Model
 {
@@ -29,6 +30,11 @@ class Video extends Model
     public function user(): BelongsTo 
     {
         return $this->belongsTo(User::class, "fk_user_id", "id");
+    }
+
+    public function views(): int
+    {
+        return VideoView::where('video_id', $this->id)->count();
     }
     
 }

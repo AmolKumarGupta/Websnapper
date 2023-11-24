@@ -4,7 +4,7 @@ import { Head, router, useForm } from '@inertiajs/react';
 import { Fragment, useRef, useState } from 'react';
 
 
-export default function Video({ auth, can, videoHash, video }) {
+export default function Video({ auth, can, videoHash, video, view_count }) {
     const titleInput = useRef(null);
     const [isOpen, setIsOpen] = useState(false);
     const [addedAsView, setView] = useState(false);
@@ -97,6 +97,9 @@ export default function Video({ auth, can, videoHash, video }) {
                         </div>
                         <div>
                             <span className='font-medium'>Video by:</span> <span className='capitalize'>{video.user.name}</span>
+                        </div>
+                        <div>
+                            <span className='font-medium'>Views:</span> <span className='capitalize'>{view_count}</span>
                         </div>
                     </div>
                 </main>
