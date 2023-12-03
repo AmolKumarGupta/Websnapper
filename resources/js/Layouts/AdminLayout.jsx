@@ -4,6 +4,7 @@ import Dropdown from '@/Components/Dropdown';
 import NavLink from '@/Components/NavLink';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
 import { Link } from '@inertiajs/react';
+import { Sidebar } from '@/Components/Admin/Sidebar';
 
 export default function AdminLayout({ user, header, children }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
@@ -120,7 +121,10 @@ export default function AdminLayout({ user, header, children }) {
                 </header>
             )}
 
-            <main>{children}</main>
+            <div className='flex gap-2'>
+                <Sidebar />
+                <main>{children}</main>
+            </div>
         </div>
     );
 }
