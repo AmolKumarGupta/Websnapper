@@ -31,15 +31,18 @@ Route::get('/', function () {
 
 Route::middleware(['auth', 'role:client'])->group(function () {
     Route::get('/dashboard', [DashBoardController::class, 'index'])->name('dashboard');
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-
+    
     Route::resource('videos', VideoController::class)->except(['create', 'edit']);
     Route::get('play/{video}', [VideoController::class, 'play'])->name('video.play');
     Route::post('video/title', [VideoController::class, 'changeTitle'])->name('video.title');
     Route::post('video/access', [VideoController::class, 'giveAccess'])->name('video.access');
     Route::post('video/views', [VideoController::class, 'views'])->name('video.views');
+});
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
 require __DIR__.'/auth.php';

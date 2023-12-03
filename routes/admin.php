@@ -1,9 +1,8 @@
-<?php 
+<?php
 
-use Illuminate\Foundation\Application;
+use App\Http\Controllers\Admin\{
+    AdminController
+};
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
-Route::get("/", function() {
-    return 'test';
-});
+Route::get("/", [AdminController::class, 'index'])->name('admin');
