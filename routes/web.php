@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\DashBoardController;
 use App\Http\Controllers\{
     ProfileController,
+    UserPlanController,
     VideoController
 };
 use Illuminate\Foundation\Application;
@@ -37,6 +38,8 @@ Route::middleware(['auth', 'role:client'])->group(function () {
     Route::post('video/title', [VideoController::class, 'changeTitle'])->name('video.title');
     Route::post('video/access', [VideoController::class, 'giveAccess'])->name('video.access');
     Route::post('video/views', [VideoController::class, 'views'])->name('video.views');
+
+    Route::get('/upgrade-plan', [UserPlanController::class, 'plans'])->name('upgrade.plan');
 });
 
 Route::middleware(['auth'])->group(function () {
