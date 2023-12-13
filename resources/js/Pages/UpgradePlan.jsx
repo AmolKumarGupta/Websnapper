@@ -9,14 +9,20 @@ export default function UpgradePlan ({ auth, plans }) {
 
         return plans.map((plan) => {
             let p = {...plan}
-            if  (p.selected == 1) {
+            if (p.selected == 1) {
                 p.btnName = "In Use";
             }
-    
+            
             let labelledBuffs = Object.entries(p.buffs)
-                .map(([k, v]) => ({ name: k, value: v }));
-    
+            .map(([k, v]) => {
+                if (k == 'videos') {
+                    k = `${v} videos`
+                }
+                return { name: k, value: v }
+            });
+            
             p.labelledBuffs = labelledBuffs;
+            p.link = (p.selected == 1) ? "" : route('upgrade', {id: p.id});
             return p;
         })
 

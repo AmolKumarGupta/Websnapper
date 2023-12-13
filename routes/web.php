@@ -7,6 +7,7 @@ use App\Http\Controllers\{
     VideoController
 };
 use Illuminate\Foundation\Application;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -40,6 +41,9 @@ Route::middleware(['auth', 'role:client'])->group(function () {
     Route::post('video/views', [VideoController::class, 'views'])->name('video.views');
 
     Route::get('/upgrade-plan', [UserPlanController::class, 'plans'])->name('upgrade.plan');
+    Route::get('/upgrade', function () { 
+        return Redirect::route('dashboard'); 
+    })->name('upgrade');
 });
 
 Route::middleware(['auth'])->group(function () {
