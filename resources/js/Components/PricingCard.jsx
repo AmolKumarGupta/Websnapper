@@ -1,3 +1,4 @@
+import { Link } from "@inertiajs/react";
 import {
 	Card,
 	CardHeader,
@@ -29,7 +30,7 @@ export function PricingCard({
 	price, 
 	buffs, 
 	btnName = "Buy Now",
-	onClick = ()=>{}
+	link = null
 }) {
 
 	return (
@@ -72,16 +73,17 @@ export function PricingCard({
 				</ul>
 			</CardBody>
 			<CardFooter className="mt-12 p-0">
-				<Button
-					size="lg"
-					color="white"
-					className="hover:scale-[1.02] focus:scale-[1.02] active:scale-100"
-					ripple={false}
-					fullWidth={true}
-					onClick={onClick}
-				>
-					{ btnName }
-				</Button>
+				<Link href={link}>
+					<Button
+						size="lg"
+						color="white"
+						className="hover:scale-[1.02] focus:scale-[1.02] active:scale-100"
+						ripple={false}
+						fullWidth={true}
+					>
+						{ btnName }
+					</Button>
+				</Link>
 			</CardFooter>
 		</Card>
 	);
