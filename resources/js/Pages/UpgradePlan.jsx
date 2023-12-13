@@ -1,32 +1,26 @@
 import { PricingCard } from '@/Components/PricingCard';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
+import { useMemo } from 'react';
 
-export default function UpgradePlan ({ auth }) {
+export default function UpgradePlan ({ auth, plans }) {
 
-    const plans = [
-        {
-            label: "Free",
-            color: "blue-gray",
-            price: 0,
-            buffs: [
-                { name: "5 videos", value: true },
-                { name: "Backup", value: false },
-                { name: "life time technical support", value: false },
-            ],
-            btnName: "In Use"
-        },
-        {
-            label: "Standard",
-            color: "indigo",
-            price: 29,
-            buffs: [
-                { name: "25 videos", value: true },
-                { name: "Backup", value: true },
-                { name: "life time technical support", value: true },
-            ]
-        },
-    ];
+    const data = useMemo(() => {
+
+        return plans.map((plan) => {
+            let p = {...plan}
+            if  (p.selected == 1) {
+                p.btnName = "In Use";
+            }
+    
+            let labelledBuffs = Object.entries(p.buffs)
+                .map(([k, v]) => ({ name: k, value: v }));
+    
+            p.labelledBuffs = labelledBuffs;
+            return p;
+        })
+
+    }, [plans]);
 
     return (
         <AuthenticatedLayout
@@ -36,7 +30,7 @@ export default function UpgradePlan ({ auth }) {
             <Head title="Upgrade Plan" />
 
             <div className="p-4 sm:pt-24 flex gap-8 flex-wrap justify-center">
-                { plans.map((p, i) => <PricingCard {...p} key={i} />) }
+                { data.map((p, i) => <PricingCard {...p} buffs={p.labelledBuffs} key={i} />) }
             </div>
         </AuthenticatedLayout>
     );
