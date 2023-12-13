@@ -11,8 +11,17 @@ class UserPlanController extends Controller
 
     public function plans(Request $request) 
     {
-        $plans = Plan::jsonWithAction(auth()->user());
-        // dd($plans);
+        $order = array_flip(['videos', 'backup', 'support']);
+        
+        $plans = collect(Plan::jsonWithAction(auth()->user()) )
+            ->map(function($p) use($order) {
+                uksort($p['buffs'], function ($a, $b) use($order) {
+                    return $order[$a] - $order[$b];
+                });
+
+                return $p;
+            })
+            ->toArray();
 
         return Inertia::render('UpgradePlan', compact('plans'));
     }
