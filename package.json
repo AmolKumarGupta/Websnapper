@@ -20,6 +20,8 @@
         "vite": "^4.0.0"
     },
     "dependencies": {
-        "@material-tailwind/react": "^2.1.5"
+        "@material-tailwind/react": "^2.1.5",
+        "@stripe/react-stripe-js": "^2.4.0",
+        "@stripe/stripe-js": "^2.2.1"
     }
 }
