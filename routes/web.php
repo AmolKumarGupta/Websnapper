@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\DashBoardController;
 use App\Http\Controllers\{
+    CheckoutController,
     ProfileController,
     UserPlanController,
     VideoController
@@ -41,9 +42,7 @@ Route::middleware(['auth', 'role:client'])->group(function () {
     Route::post('video/views', [VideoController::class, 'views'])->name('video.views');
 
     Route::get('/upgrade-plan', [UserPlanController::class, 'plans'])->name('upgrade.plan');
-    Route::get('/upgrade', function () { 
-        return Redirect::route('dashboard'); 
-    })->name('upgrade');
+    Route::get('/upgrade', [CheckoutController::class, 'index'])->name('upgrade');
 });
 
 Route::middleware(['auth'])->group(function () {
