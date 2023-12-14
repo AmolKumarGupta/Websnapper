@@ -43,6 +43,10 @@ Route::middleware(['auth', 'role:client'])->group(function () {
 
     Route::get('/upgrade-plan', [UserPlanController::class, 'plans'])->name('upgrade.plan');
     Route::get('/upgrade', [CheckoutController::class, 'index'])->name('upgrade');
+
+    Route::prefix('/stripe')->group(function () {
+        Route::post('/create', [CheckoutController::class, 'stripeCreate'])->name('stripe.create');
+    });
 });
 
 Route::middleware(['auth'])->group(function () {
