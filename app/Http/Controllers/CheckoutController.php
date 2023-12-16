@@ -34,7 +34,10 @@ class CheckoutController extends Controller
             
             $cusRecord = StripeCustomer::where('user_id', $user->id)->first();
             if (! $cusRecord) {
-                $customer = $stripe->customers->create();
+                $customer = $stripe->customers->create([
+                    'name' => $user->name,
+                    'email' => $user->email,
+                ]);
 
                 $cusRecord = StripeCustomer::create([
                     'user_id' => $user->id,
