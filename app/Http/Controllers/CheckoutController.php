@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Plan;
 use App\Models\StripeCustomer;
+use Exception;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -19,11 +21,16 @@ class CheckoutController extends Controller
     public function stripeCreate(Request $request) 
     {
         $user = auth()->user();
+        $plan = Plan::find($request->plan_id);
+        if (! $plan) {
+            return abort(403);
+        }
+        $price = $plan->calculatedPrice();
 
         try {
             $stripe = new \Stripe\StripeClient(config('stripe.secret'));
             
-            $cusRecord = StripeCustomer::where('user_id', $user->id);
+            $cusRecord = StripeCustomer::where('user_id', $user->id)->first();
             if (! $cusRecord) {
                 $customer = $stripe->customers->create();
 
@@ -36,7 +43,7 @@ class CheckoutController extends Controller
             $paymentIntent = $stripe->paymentIntents->create([
                 'customer' => $cusRecord->cus_id,
                 'setup_future_usage' => 'off_session',
-                'amount' => 100,
+                'amount' => $price,
                 'currency' => 'inr',
                 'automatic_payment_methods' => [
                     'enabled' => true,

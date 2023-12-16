@@ -12,6 +12,8 @@ export default function Checkout({ auth, csrf_token, pkey }) {
     const stripePromise = loadStripe(pkey);
 
     useEffect(() => {
+        let qs = new URLSearchParams(window.location.search);
+        let plan_id = qs.get('plan');
 
         fetch(route('stripe.create'), {
             method: "POST",
@@ -21,7 +23,7 @@ export default function Checkout({ auth, csrf_token, pkey }) {
                 "X-Requested-With": "XMLHttpRequest",
                 "X-CSRF-Token": csrf_token
             },
-            body: JSON.stringify({ items: [{ id: "id" }] }),
+            body: JSON.stringify({ plan_id }),
         })
         .then((res) => res.json())
         .then((data) => setClientSecret(data.clientSecret));
