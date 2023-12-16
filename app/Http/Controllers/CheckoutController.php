@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Payment;
 use App\Models\Plan;
 use App\Models\StripeCustomer;
 use Exception;
@@ -48,6 +49,15 @@ class CheckoutController extends Controller
                 'automatic_payment_methods' => [
                     'enabled' => true,
                 ],
+            ]);
+
+            Payment::create([
+                'user_id' => $user->id,
+                'plan_id' => $plan->id,
+                'customer'=> $paymentIntent->customer,
+                'payment_intent' => $paymentIntent->id,
+                'amount' => $paymentIntent->amount,
+                'currency' => $paymentIntent->currency,
             ]);
             
             $output = [
