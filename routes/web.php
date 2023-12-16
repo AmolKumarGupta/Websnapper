@@ -2,10 +2,12 @@
 
 use App\Http\Controllers\Auth\DashBoardController;
 use App\Http\Controllers\{
+    CheckoutController,
     ProfileController,
     UserPlanController,
     VideoController
 };
+use App\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
@@ -41,10 +43,14 @@ Route::middleware(['auth', 'role:client'])->group(function () {
     Route::post('video/views', [VideoController::class, 'views'])->name('video.views');
 
     Route::get('/upgrade-plan', [UserPlanController::class, 'plans'])->name('upgrade.plan');
-    Route::get('/upgrade', function () { 
-        return Redirect::route('dashboard'); 
-    })->name('upgrade');
+    Route::get('/upgrade', [CheckoutController::class, 'index'])->name('upgrade');
+
+    Route::prefix('/stripe')->group(function () {
+        Route::post('/create', [CheckoutController::class, 'stripeCreate'])->name('stripe.create');
+    });
 });
+
+Route::post('/stripe-webhook', [CheckoutController::class, 'webhook'])->withoutMiddleware([VerifyCsrfToken::class]);
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

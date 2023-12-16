@@ -22,7 +22,7 @@ export default function UpgradePlan ({ auth, plans }) {
             });
             
             p.labelledBuffs = labelledBuffs;
-            p.link = (p.selected == 1) ? "" : route('upgrade', {id: p.id});
+            p.link = (p.selected == 1) ? "" : route('upgrade', {plan: p.id});
             return p;
         })
 

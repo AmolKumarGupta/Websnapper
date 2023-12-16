@@ -57,4 +57,14 @@ class Plan extends Model
             ->toArray();
     }
 
+    /**
+     * @return price for the stripe in INR Paise
+     */
+    public function calculatedPrice(): int
+    {
+        $data = json_decode($this->data, true);
+
+        return $data['price'] * 80 * 100;
+    }
+
 }
