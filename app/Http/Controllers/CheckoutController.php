@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Charge;
 use App\Models\Payment;
 use App\Models\Plan;
 use App\Models\StripeCustomer;
@@ -95,8 +96,7 @@ class CheckoutController extends Controller
 
         switch ($event->type) {
             case 'charge.succeeded':
-                $data = $event->data->object;
-                info($data);
+                Charge::fromStripe($event->data->object);
             
             default:
                 echo 'Received unknown event type ' . $event->type;
