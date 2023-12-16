@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\StripeCustomer;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -17,13 +18,23 @@ class CheckoutController extends Controller
 
     public function stripeCreate(Request $request) 
     {
+        $user = auth()->user();
+
         try {
             $stripe = new \Stripe\StripeClient(config('stripe.secret'));
             
-            $customer = $stripe->customers->create();
+            $cusRecord = StripeCustomer::where('user_id', $user->id);
+            if (! $cusRecord) {
+                $customer = $stripe->customers->create();
+
+                $cusRecord = StripeCustomer::create([
+                    'user_id' => $user->id,
+                    'cus_id' => $customer->id,
+                ]);
+            }
 
             $paymentIntent = $stripe->paymentIntents->create([
-                'customer' => $customer->id,
+                'customer' => $cusRecord->cus_id,
                 'setup_future_usage' => 'off_session',
                 'amount' => 100,
                 'currency' => 'inr',
@@ -66,9 +77,9 @@ class CheckoutController extends Controller
         }
 
         switch ($event->type) {
-            case 'payment_intent.succeeded':
-                $paymentIntent = $event->data->object;
-                info($paymentIntent);
+            case 'charge.succeeded':
+                $data = $event->data->object;
+                info($data);
             
             default:
                 echo 'Received unknown event type ' . $event->type;
