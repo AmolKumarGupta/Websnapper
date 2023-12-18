@@ -14,7 +14,7 @@ class DashBoardController extends Controller
         /** @var \App\Models\User $user */
         $user = auth()->user();
         
-        $totalVideos = 25;
+        $totalVideos = $user->totalVideos();
         $usedVideos = $user->videos()->count();
         $videos = $user->videos()
             ->limit(10)
