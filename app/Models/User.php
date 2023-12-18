@@ -54,18 +54,18 @@ class User extends Authenticatable
 
     public function totalVideos(): int 
     {
-        $planId = Payment::where('user_id', $this->id)
+        $payment = Payment::where('user_id', $this->id)
             ->where('status', PaymentStatus::Succeeded->value)
             ->select('plan_id')
             ->first();
 
-        if ($planId == null) {
+        if ($payment == null) {
             $plan = Plan::where('name', 'basic')->select('data->buffs->videos as videos')->first();
-            return $plan->videos;
+            return $plan->videos ?? 1;
         }
         
-        $plan = Plan::where('id', $planId)->select('data->buffs->videos as videos')->first();
-        return $plan->videos;
+        $plan = Plan::where('id', $payment->plan_id)->select('data->buffs->videos as videos')->first();
+        return $plan->videos ?? 1;
     }
 
 }
