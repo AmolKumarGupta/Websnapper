@@ -3,6 +3,8 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use App\Enums\PaymentStatus;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
@@ -48,6 +50,22 @@ class User extends Authenticatable
     public function videos(): HasMany
     {
         return $this->hasMany(Video::class, 'fk_user_id', 'id');
+    }
+
+    public function totalVideos(): int 
+    {
+        $planId = Payment::where('user_id', $this->id)
+            ->where('status', PaymentStatus::Succeeded->value)
+            ->select('plan_id')
+            ->first();
+
+        if ($planId == null) {
+            $plan = Plan::where('name', 'basic')->select('data->buffs->videos as videos')->first();
+            return $plan->videos;
+        }
+        
+        $plan = Plan::where('id', $planId)->select('data->buffs->videos as videos')->first();
+        return $plan->videos;
     }
 
 }
