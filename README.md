@@ -67,6 +67,14 @@ php artisan serve
 > Also Follow the Step [Telescope Local Only](https://laravel.com/docs/10.x/telescope#local-only-installation)
 
 
+## Warning
+there may be a chance that videos are not being uploaded, it can be fixed with php.ini
+```
+upload_max_filesize=100M
+post_max_size=105M
+```
+
+
 ## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE.md ) file for details.
 
