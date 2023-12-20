@@ -37,6 +37,11 @@ if APP_KEY is not preset then generate it
 php artisan key:generate --ansi
 ```
 
+run migrations
+```
+php artisan migrate
+```
+
 seed database
 ```
 php artisan db:seed
