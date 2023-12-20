@@ -74,6 +74,15 @@ upload_max_filesize=100M
 post_max_size=105M
 ```
 
+## Testing
+We are using phpunit for testing, we prefer to use `.env.testing` rather than `.env` file
+```
+php artisan test
+```
+
+> Tips: do ```php artisan schema:dump``` to boost migration before running tests.
+
+
 
 ## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE.md ) file for details.
