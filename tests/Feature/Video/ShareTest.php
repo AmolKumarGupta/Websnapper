@@ -6,6 +6,7 @@ use Tests\TestCase;
 use App\Models\User;
 use App\Models\Video;
 use App\Models\VideoAccess;
+use Database\Seeders\DatabaseSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ShareTest extends TestCase 
@@ -18,6 +19,8 @@ class ShareTest extends TestCase
     {
         parent::setUp();
 
+        $this->seed([DatabaseSeeder::class]);
+
         self::$user = User::factory()
         ->has(
             Video::factory()
@@ -25,12 +28,15 @@ class ShareTest extends TestCase
                 ->state(fn(array $attributes, User $user) => ['fk_user_id' => $user->id])
         )
         ->create();
+
+        self::$user->syncRoles(['client']);
     }
 
     public function test_give_access_to_user() 
     {
         $user = self::$user;
         $another = User::factory()->create();
+        $another->syncRoles(['client']);
 
         $user->videos->each(function($video) use($user, $another) {
 

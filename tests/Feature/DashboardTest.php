@@ -4,6 +4,7 @@ namespace Tests\Feature\Auth;
 
 use Tests\TestCase;
 use App\Models\User;
+use Database\Seeders\RoleSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class DashboardTest extends TestCase 
@@ -12,7 +13,13 @@ class DashboardTest extends TestCase
 
     public function test_login_user_can_see_dashboard() 
     {
+        $this->seed([
+            RoleSeeder::class,
+        ]);
+
         $user = User::factory()->create();
+        $user->syncRoles(['client']);
+
         $response = $this->actingAs($user)->get('/dashboard');
         $response->assertStatus(200);
     }
