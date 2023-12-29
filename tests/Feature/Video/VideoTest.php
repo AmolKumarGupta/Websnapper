@@ -5,6 +5,7 @@ namespace Tests\Feature\Video;
 use Tests\TestCase;
 use App\Models\User;
 use App\Models\Video;
+use Database\Seeders\DatabaseSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class VideoTest extends TestCase 
@@ -16,6 +17,7 @@ class VideoTest extends TestCase
     protected function setUp(): void 
     {
         parent::setUp();
+        $this->seed([DatabaseSeeder::class]);
 
         self::$user = User::factory()
         ->has(
@@ -24,6 +26,8 @@ class VideoTest extends TestCase
                 ->state(fn(array $attributes, User $user) => ['fk_user_id' => $user->id])
         )
         ->create();
+
+        self::$user->syncRoles(['client']);
     }
 
     public function test_user_can_see_video() 
@@ -43,6 +47,7 @@ class VideoTest extends TestCase
         $user = self::$user;
 
         $unAuthorizedUser = User::factory()->create();
+        $unAuthorizedUser->syncRoles(['client']);
 
         $user->videos->each(function ($v) use ($unAuthorizedUser) {
             $videoLink = hashget($v->id);
@@ -57,6 +62,7 @@ class VideoTest extends TestCase
         $user = self::$user;
 
         $authorizedUser = User::factory()->create();
+        $authorizedUser->syncRoles(['client']);
 
         $user->videos->each(function ($v) use ($user, $authorizedUser) {
             $videoLink = hashget($v->id);

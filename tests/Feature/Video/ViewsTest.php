@@ -5,6 +5,7 @@ namespace Tests\Feature\Video;
 use App\Models\User;
 use App\Models\Video;
 use App\Models\VideoView;
+use Database\Seeders\DatabaseSeeder;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -17,6 +18,7 @@ class ViewsTest extends TestCase
     protected function setUp(): void 
     {
         parent::setUp();
+        $this->seed([DatabaseSeeder::class]);
 
         self::$user = User::factory()
         ->has(
@@ -25,6 +27,8 @@ class ViewsTest extends TestCase
                 ->state(fn(array $attributes, User $user) => ['fk_user_id' => $user->id])
         )
         ->create();
+
+        self::$user->syncRoles(['client']);
     }
 
     public function test_count_as_view() 
@@ -44,6 +48,8 @@ class ViewsTest extends TestCase
         });
         
         $another = User::factory()->create();
+        $another->syncRoles(['client']);
+
         $user->videos->each(function ($v) use ($user, $another) {
             $response = $this->actingAs($another)->post("video/views", [
                 "videoId" => $v->id,
