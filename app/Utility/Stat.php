@@ -13,12 +13,26 @@ class Stat
 
     protected string $suffix;
 
+    protected $aggFunc = null;
+
     /**
      * @param <class-string> $model
      */
     public function __construct($model)
     {
         $this->model = $model;
+        return $this;
+    }
+
+    public function label($label) 
+    {
+        $this->label = $label;
+        return $this;
+    }
+
+    public function agg($func) 
+    {
+        $this->aggFunc = $func;
         return $this;
     }
 
@@ -36,9 +50,13 @@ class Stat
 
     public function toArray(): array
     {
+        $query = ($this->model)::query();
+
         return [
-            'label' => $this->getLabel(),
-            'value' => ($this->model)::count(),
+            'label' => $this->label ?? $this->getLabel(),
+            'value' => ($this->aggFunc === null) 
+                ? $query->count()
+                : ($this->aggFunc)($query),
         ];
     }
 
