@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\PaymentStatus;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -47,12 +48,24 @@ class Plan extends Model
      */
     public static function jsonWithAction(User|Authenticatable $user): array 
     {
-        $selected = 7;
+        $payment = Payment::where('user_id', $user->id)
+            ->where('status', PaymentStatus::Succeeded->value)
+            ->latest()
+            ->select('plan_id')
+            ->first();
+
+        if ($payment) {
+            $selected = $payment->plan_id;
+        }else {
+            $basicPlan = Plan::where('name', 'basic')->first();
+            $selected = $basicPlan->id;
+        }
 
         return static::collect()
             ->map(fn ($plan) => [
                 ...$plan, 
-                "selected" => intval($selected==$plan['id']) 
+                "selected" => intval($selected==$plan['id']), 
+                "hide" => intval($selected > $plan['id']) 
             ])
             ->toArray();
     }

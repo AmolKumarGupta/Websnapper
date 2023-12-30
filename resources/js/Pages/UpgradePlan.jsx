@@ -9,6 +9,11 @@ export default function UpgradePlan ({ auth, plans }) {
 
         return plans.map((plan) => {
             let p = {...plan}
+
+            if (p.hide == 1) {
+                return null;
+            }
+
             if (p.selected == 1) {
                 p.btnName = "In Use";
             }
@@ -36,7 +41,10 @@ export default function UpgradePlan ({ auth, plans }) {
             <Head title="Upgrade Plan" />
 
             <div className="p-4 sm:pt-24 flex gap-8 flex-wrap justify-center">
-                { data.map((p, i) => <PricingCard {...p} buffs={p.labelledBuffs} key={i} />) }
+                { 
+                    data.filter((p) => p)
+                    .map((p, i) => <PricingCard {...p} buffs={p.labelledBuffs} key={i} />) 
+                }
             </div>
         </AuthenticatedLayout>
     );
