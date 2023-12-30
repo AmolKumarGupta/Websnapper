@@ -41,6 +41,7 @@ Route::middleware(['auth', 'role:client'])->group(function () {
     Route::post('video/title', [VideoController::class, 'changeTitle'])->name('video.title');
     Route::post('video/access', [VideoController::class, 'giveAccess'])->name('video.access');
     Route::post('video/views', [VideoController::class, 'views'])->name('video.views');
+    Route::post('video/lefted-video-count', [VideoController::class, 'leftedVideoCount'])->name('video.lefted.count');
 
     Route::get('/upgrade-plan', [UserPlanController::class, 'plans'])->name('upgrade.plan');
     Route::get('/upgrade', [CheckoutController::class, 'index'])->name('upgrade');

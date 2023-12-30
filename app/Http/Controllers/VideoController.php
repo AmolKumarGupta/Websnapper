@@ -10,6 +10,7 @@ use App\Models\VideoAccess;
 use App\Models\VideoView;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class VideoController extends Controller
 {
@@ -18,13 +19,22 @@ class VideoController extends Controller
         // 
     }
 
-    function store(Request $request): void 
+    function store(Request $request) 
     {
         $request->validate([
             'video' => ['required', 'max:51200'],
         ]);
 
-        StoreVideo::handle(auth()->user(), $request->file('video'));
+        /** @var \App\Models\User */
+        $user = auth()->user();
+        $total = $user->totalVideos();
+        $used = $user->videos->count();
+
+        if ($used >= $total) {
+            return back()->with('error', 'video limit is reached');
+        }
+
+        StoreVideo::handle($user, $request->file('video'));
     }
 
     function show(Request $request, string $video) 
@@ -133,6 +143,18 @@ class VideoController extends Controller
             "video_id" => $video->id,
             "model_type" => User::class,
             "model_id" => auth()->id(),
+        ]);
+    }
+
+    public function leftedVideoCount(Request $request) 
+    {
+        /** @var \App\Models\User */
+        $user = auth()->user();
+        $total = $user->totalVideos();
+        $used = $user->videos->count();
+
+        return response()->json([
+            'cnt'  => $total - $used
         ]);
     }
 

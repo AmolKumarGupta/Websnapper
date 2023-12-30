@@ -1,9 +1,15 @@
 import Video from '@/Components/Video';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, router } from '@inertiajs/react';
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 
-export default function Dashboard({ auth, usedVideos, totalVideos, videos }) {
+export default function Dashboard({ auth, usedVideos, totalVideos, videos, error }) {
+
+    useEffect(() => {
+        if (error) {
+            alert(error);
+        }
+    }, [error])
     
     const videoList = useMemo(() => {
         return videos.map((v) => <Video key={v.id} data={v} />)
