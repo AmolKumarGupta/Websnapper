@@ -23,7 +23,7 @@ class AdminController extends Controller
                 (new Stat(Payment::class))
                     ->label('Amount Earned')
                     ->agg(function ($query) {
-                        return '$ ' . $query
+                        return 'Rs ' . $query
                             ->where('status', PaymentStatus::Succeeded->value)
                             ->sum('amount') / 100;
                     }),
