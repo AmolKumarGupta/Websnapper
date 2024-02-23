@@ -20,7 +20,7 @@ export default function Stat(props) {
     const value = props.value ?? "";
 
     return (
-        <Card className="w-64">
+        <Card className="flex-auto">
             <CardBody>
                 <div className="flex gap-4 items-center">
                     <div className={`p-2 rounded ${ colorSet[iconColor] }`}>
