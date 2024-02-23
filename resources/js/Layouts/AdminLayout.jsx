@@ -123,7 +123,7 @@ export default function AdminLayout({ user, header, children }) {
 
             <div className='flex gap-2'>
                 <Sidebar />
-                <main>{children}</main>
+                <main className='w-full me-4'>{children}</main>
             </div>
         </div>
     );
