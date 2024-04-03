@@ -1,3 +1,4 @@
+import PrimaryButton from '@/Components/PrimaryButton';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Dialog, Transition } from '@headlessui/react';
 import { Head, router, useForm } from '@inertiajs/react';
@@ -66,6 +67,16 @@ export default function Video({ auth, can, videoHash, video, view_count }) {
         })
     }
 
+    function sync(e) {
+        if (! can.sync) {
+            return;
+        }
+
+        router.post(route('video.sync'), { _method: 'post', videoId: video.id }, {
+            preserveScroll: true,
+        })
+    }
+
     return <AuthenticatedLayout
         user={auth.user}
         header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Video</h2>}
@@ -101,6 +112,9 @@ export default function Video({ auth, can, videoHash, video, view_count }) {
                         <div>
                             <span className='font-medium'>Views:</span> <span className='capitalize'>{view_count}</span>
                         </div>
+
+                        {can.sync && <PrimaryButton onClick={e => sync(e)} className='mt-4'>Upload in my Drive</PrimaryButton>}
+                        
                     </div>
                 </main>
             </div>
