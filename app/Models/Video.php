@@ -36,5 +36,13 @@ class Video extends Model
     {
         return VideoView::where('video_id', $this->id)->count();
     }
+
+    /**
+     * @return string absolute path of the video
+     */
+    public function getPath(): string 
+    {
+        return storage_path("app/{$this->path}");
+    }
     
 }
