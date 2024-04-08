@@ -1,11 +1,12 @@
 import PrimaryButton from '@/Components/PrimaryButton';
+import ServiceButton from '@/Components/ServiceButton';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Dialog, Transition } from '@headlessui/react';
 import { Head, router, useForm } from '@inertiajs/react';
 import { Fragment, useRef, useState } from 'react';
 
 
-export default function Video({ auth, can, videoHash, video, view_count }) {
+export default function Video({ auth, can, videoHash, video, view_count, isSync, link }) {
     const titleInput = useRef(null);
     const [isOpen, setIsOpen] = useState(false);
     const [addedAsView, setView] = useState(false);
@@ -113,7 +114,7 @@ export default function Video({ auth, can, videoHash, video, view_count }) {
                             <span className='font-medium'>Views:</span> <span className='capitalize'>{view_count}</span>
                         </div>
 
-                        {can.sync && <PrimaryButton onClick={e => sync(e)} className='mt-4'>Upload in my Drive</PrimaryButton>}
+                        {can.sync && <ServiceButton isSynced={isSync} sync={sync} link={link} styles="mt-4" />}
                         
                     </div>
                 </main>
