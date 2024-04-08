@@ -1,10 +1,12 @@
+import PrimaryButton from '@/Components/PrimaryButton';
+import ServiceButton from '@/Components/ServiceButton';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Dialog, Transition } from '@headlessui/react';
 import { Head, router, useForm } from '@inertiajs/react';
 import { Fragment, useRef, useState } from 'react';
 
 
-export default function Video({ auth, can, videoHash, video, view_count }) {
+export default function Video({ auth, can, videoHash, video, view_count, isSync, link }) {
     const titleInput = useRef(null);
     const [isOpen, setIsOpen] = useState(false);
     const [addedAsView, setView] = useState(false);
@@ -66,6 +68,16 @@ export default function Video({ auth, can, videoHash, video, view_count }) {
         })
     }
 
+    function sync(e) {
+        if (! can.sync) {
+            return;
+        }
+
+        router.post(route('video.sync'), { _method: 'post', videoId: video.id }, {
+            preserveScroll: true,
+        })
+    }
+
     return <AuthenticatedLayout
         user={auth.user}
         header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Video</h2>}
@@ -101,6 +113,9 @@ export default function Video({ auth, can, videoHash, video, view_count }) {
                         <div>
                             <span className='font-medium'>Views:</span> <span className='capitalize'>{view_count}</span>
                         </div>
+
+                        {can.sync && <ServiceButton isSynced={isSync} sync={sync} link={link} styles="mt-4" />}
+                        
                     </div>
                 </main>
             </div>

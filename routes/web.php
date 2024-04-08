@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\DashBoardController;
 use App\Http\Controllers\{
     CheckoutController,
     ProfileController,
+    ServiceController,
     UserPlanController,
     VideoController
 };
@@ -38,10 +39,14 @@ Route::middleware(['auth', 'role:client'])->group(function () {
     
     Route::resource('videos', VideoController::class)->except(['create', 'edit']);
     Route::get('play/{video}', [VideoController::class, 'play'])->name('video.play');
-    Route::post('video/title', [VideoController::class, 'changeTitle'])->name('video.title');
-    Route::post('video/access', [VideoController::class, 'giveAccess'])->name('video.access');
-    Route::post('video/views', [VideoController::class, 'views'])->name('video.views');
-    Route::post('video/lefted-video-count', [VideoController::class, 'leftedVideoCount'])->name('video.lefted.count');
+
+    Route::prefix('/video')->group(function () {
+        Route::post('/title', [VideoController::class, 'changeTitle'])->name('video.title');
+        Route::post('/access', [VideoController::class, 'giveAccess'])->name('video.access');
+        Route::post('/views', [VideoController::class, 'views'])->name('video.views');
+        Route::post('/sync', [ServiceController::class, 'sync'])->name('video.sync');
+        Route::post('/lefted-video-count', [VideoController::class, 'leftedVideoCount'])->name('video.lefted.count');
+    });
 
     Route::get('/upgrade-plan', [UserPlanController::class, 'plans'])->name('upgrade.plan');
     Route::get('/upgrade', [CheckoutController::class, 'index'])->name('upgrade');

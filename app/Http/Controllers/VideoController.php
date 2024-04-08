@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Inertia\Inertia;
 use App\Models\Video;
 use App\Actions\StoreVideo;
+use App\Models\ServiceVideo;
 use App\Models\User;
 use App\Models\VideoAccess;
 use App\Models\VideoView;
@@ -41,10 +42,12 @@ class VideoController extends Controller
     {
         if ($request->get('id')) {
             $videoHash = base64_encode($request->get('id'));
+            /** @var Video $video */
             $video = Video::with(['user:id,name'])->findOrFail($request->get('id'));
 
         }else {
             $videoHash = $video;
+            /** @var Video $video */
             $video = Video::with(['user:id,name'])->findOrFail(hashget($videoHash, true));
         }
 
@@ -55,10 +58,19 @@ class VideoController extends Controller
         /** @var \App\Models\User $authUser */
         $authUser = auth()->user();
 
-        $can = ['edit' => $authUser->can('edit', $video)];
+        $can = [
+            'edit' => $authUser->can('edit', $video),
+            'sync' => $authUser->can('sync', $video),
+        ];
+        
         $view_count = $video->views();
 
-        return Inertia::render('Video', compact('can', 'videoHash', 'video', 'view_count'));
+        $isSync = $video->isSynced();
+        $link = $isSync ? $video->getSharableLink() : "";
+
+        return Inertia::render('Video', compact('can', 'videoHash', 'video', 'view_count',
+            'isSync', 'link',
+        ));
     }
 
     function play(Request $request, string $video) {

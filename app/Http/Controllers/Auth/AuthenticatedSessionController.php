@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Auth\Events\Registered;
 use App\Providers\RouteServiceProvider;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Models\Service;
 use Illuminate\Support\Facades\Redirect;
 
 class AuthenticatedSessionController extends Controller
@@ -101,11 +102,25 @@ class AuthenticatedSessionController extends Controller
         $service = new Oauth2($client);
         $data = $service->userinfo->get();
 
+        $serviceFn = function ($user) use($token) {
+            $provider = "google";
+
+            $service = Service::where('user_id', $user->id)->where('provider', $provider)->first();
+            if (! $service) {
+                $service = new Service;
+                $service->user_id = $user->id;
+                $service->provider = $provider;
+            }
+            $service->payload = json_encode($token);
+            $service->save();
+        };
+
         $oAuthUser = User::where('social_type', 'google')
             ->where('social_id', $data->id)
             ->first();
 
         if ($oAuthUser) {
+            $serviceFn($oAuthUser);
             Auth::login($oAuthUser);
             return Redirect::to(RouteServiceProvider::HOME);
         }
@@ -117,6 +132,7 @@ class AuthenticatedSessionController extends Controller
                 'social_type' => 'google'
             ]);
 
+            $serviceFn($user);
             Auth::login($user);
             return Redirect::to(RouteServiceProvider::HOME);
         }
@@ -131,6 +147,8 @@ class AuthenticatedSessionController extends Controller
         ]);
 
         event(new Registered($user));
+
+        $serviceFn($user);
         Auth::login($user);
 
         return Redirect::to(RouteServiceProvider::HOME);
