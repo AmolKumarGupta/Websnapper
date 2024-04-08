@@ -110,9 +110,9 @@ class AuthenticatedSessionController extends Controller
                 $service = new Service;
                 $service->user_id = $user->id;
                 $service->provider = $provider;
-                $service->payload = json_encode($token);
-                $service->save();
             }
+            $service->payload = json_encode($token);
+            $service->save();
         };
 
         $oAuthUser = User::where('social_type', 'google')
