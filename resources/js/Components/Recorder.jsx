@@ -18,6 +18,18 @@ export default function Recorder() {
             });
     }, [])
 
+    useEffect(() => {
+        window.onbeforeunload = function(event) {
+            if (! recording) {
+                return;
+            }
+
+            event.preventDefault();
+            event.returnValue = true;
+        };
+
+    }, [recording])
+
     const startRecording = async () => {
         try {
             const stream = await navigator.mediaDevices.getDisplayMedia({ video: true, audio: true });
