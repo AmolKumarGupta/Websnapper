@@ -14,6 +14,8 @@ Websnapper is a SaaS (Software as a Service) project aimed at enabling screen re
 
 ## Installation
 
+> Here is the installation steps with [Docker](./docs/installation-docker.md)
+
 clone the repository from gitub
 ```
 git clone https://github.com/AmolKumarGupta/Websnapper.git
