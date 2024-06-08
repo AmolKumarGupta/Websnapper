@@ -23,7 +23,7 @@ class StoreVideo
 
         Video::create([
             "fk_user_id" => $user->id,
-            "title" => now()->format("Y-m-d-His"),
+            "title" => now()->format("d M Y, H:i:s"),
             "path" => $path ."/". $file->hashName(),
             "status" => VideoStatus::Active,
         ]);
