@@ -49,6 +49,11 @@ seed database
 php artisan db:seed
 ```
 
+link storage for thumbnails
+```
+php artisan storage:link
+```
+
 build assets
 
 ```

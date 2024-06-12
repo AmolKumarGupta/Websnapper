@@ -42,6 +42,11 @@ seed database
 ./vendor/bin/sail artisan db:seed
 ```
 
+link storage for thumbnails
+```
+./vendor/bin/sail artisan storage:link
+```
+
 build assets
 
 ```
