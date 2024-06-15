@@ -8,9 +8,10 @@ Websnapper is a SaaS (Software as a Service) project aimed at enabling screen re
 
 
 ## Features
-- Screen recording
-- Video sharing
-- Private and Public Access
+- Screen Recording
+- Google Drive Integration
+- Stripe Integration
+- Docker Support
 
 ## Installation
 
