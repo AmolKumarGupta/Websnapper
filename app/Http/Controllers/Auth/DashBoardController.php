@@ -15,12 +15,13 @@ class DashBoardController extends Controller
         $user = auth()->user();
         
         $totalVideos = $user->totalVideos();
-        $usedVideos = $user->videos->count();
-        $videos = $user->videos()
+        $usedVideos = $user->loadCount('videos')->videos_count;
+        $videos = $user->videos()->with('thumbnail')
             ->limit(10)
             ->get()
             ->map(function ($v) {
                 $v->hash = hashget($v->id);
+                $v->thumbnail_url = $v->thumbnail ? asset("storage/thumbnails/{$v->thumbnail->path}") : null;
                 return $v;
             })
             ->toArray();
