@@ -3,6 +3,7 @@
 ## releases
 
 ### Features
+ - Add thumbnail for videos [#40](https://github.com/AmolKumarGupta/Websnapper/issues/40)
  - Update video title [#110](https://github.com/AmolKumarGupta/Websnapper/issues/110)
  - Add Docker Support [#104](https://github.com/AmolKumarGupta/Websnapper/issues/104)
  - Add Changelog [#107](https://github.com/AmolKumarGupta/Websnapper/issues/107)
