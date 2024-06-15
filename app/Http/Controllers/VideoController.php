@@ -29,7 +29,7 @@ class VideoController extends Controller
         /** @var \App\Models\User */
         $user = auth()->user();
         $total = $user->totalVideos();
-        $used = $user->videos->count();
+        $used = $user->loadCount('videos')->videos_count;
 
         if ($used >= $total) {
             return back()->with('error', 'video limit is reached');
@@ -163,7 +163,7 @@ class VideoController extends Controller
         /** @var \App\Models\User */
         $user = auth()->user();
         $total = $user->totalVideos();
-        $used = $user->videos->count();
+        $used = $user->loadCount('videos')->videos_count;
 
         return response()->json([
             'cnt'  => $total - $used
