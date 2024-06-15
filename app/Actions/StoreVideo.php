@@ -32,20 +32,21 @@ class StoreVideo
             "status" => VideoStatus::Active,
         ]);
 
-        $thumbnailPath = Str::uuid() . ".jpeg";
+        $thumbnailName = Str::uuid() . ".jpeg";
 
-        if ( !file_exists(storage_path("app/public/thumbnails")) ) {
-            mkdir( storage_path("app/public/thumbnails") );
+        $storagePath = config('thumbnail.path');
+        if ( !file_exists( $storagePath ) ) {
+            mkdir( $storagePath );
         }
 
         $ffmpeg = FFMpeg::create();
         $ffmpeg->open(storage_path("app/{$video->path}"))
             ->frame(TimeCode::fromSeconds(3))
-            ->save(storage_path("app/public/thumbnails/$thumbnailPath"));
+            ->save( "{$storagePath}/{$thumbnailName}" );
 
         $thumbnail = new Thumbnail;
         $thumbnail->video_id = $video->id;
-        $thumbnail->path = $thumbnailPath;
+        $thumbnail->path = $thumbnailName;
         $thumbnail->save();
         
         return true;
