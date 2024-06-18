@@ -9,5 +9,6 @@
  - Add Changelog [#107](https://github.com/AmolKumarGupta/Websnapper/issues/107)
 
 ### Fixes
+ - Remove asset function from config files
  - Add `thumbnail` config to handle thumbnail related things
  - Add Alert before leaving the page while recording [#106](https://github.com/AmolKumarGupta/Websnapper/issues/106)
