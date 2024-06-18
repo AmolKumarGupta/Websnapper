@@ -4,6 +4,6 @@ return [
 
     "path" => storage_path("app/public/thumbnails"),
 
-    "asset" => asset("storage/thumbnails"),
+    "asset" => "storage/thumbnails",
 
 ];

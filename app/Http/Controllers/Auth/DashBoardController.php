@@ -14,7 +14,7 @@ class DashBoardController extends Controller
         /** @var \App\Models\User $user */
         $user = auth()->user();
         
-        $assetPath = config('thumbnail.asset');
+        $assetPath = asset(config('thumbnail.asset'));
         $totalVideos = $user->totalVideos();
         $usedVideos = $user->loadCount('videos')->videos_count;
         $videos = $user->videos()->with('thumbnail')
