@@ -1,12 +1,13 @@
 import { Dialog, Menu, Transition } from '@headlessui/react'
+import { router } from '@inertiajs/react';
 import { Fragment, useEffect, useRef, useState } from 'react'
 
 export default function VideoMenu({video}) {
 
     const [isOpen, setIsOpen] = useState(false);
 
-    function onDelete() {
-        
+    function onDelete(id) {
+        router.delete( route('videos.destroy', video.id) )
     }
 
     return (
@@ -83,7 +84,7 @@ export default function VideoMenu({video}) {
                                         <button
                                             type="button"
                                             className="inline-flex justify-center rounded-md border border-transparent bg-red-400 px-4 py-2 text-sm font-medium text-white hover:bg-red-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2"
-                                            onClick={() => onDelete()} 
+                                            onClick={() => onDelete(video.id)} 
                                         >
                                             Delete
                                         </button>

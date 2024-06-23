@@ -3,6 +3,7 @@
 ## releases
 
 ### Features
+ - Delete Video permanently [#108](https://github.com/AmolKumarGupta/Websnapper/issues/108)
  - Add thumbnail for videos [#40](https://github.com/AmolKumarGupta/Websnapper/issues/40)
  - Update video title [#110](https://github.com/AmolKumarGupta/Websnapper/issues/110)
  - Add Docker Support [#104](https://github.com/AmolKumarGupta/Websnapper/issues/104)
