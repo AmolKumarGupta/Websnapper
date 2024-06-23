@@ -12,6 +12,7 @@ use App\Models\VideoView;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Redirect;
 
 class VideoController extends Controller
 {
@@ -98,9 +99,13 @@ class VideoController extends Controller
         // 
     }
 
-    function destroy(Request $request, $video) 
+    function destroy(Request $request, Video $video) 
     {
-        // 
+        $this->authorize('edit', $video);
+
+        $video->delete();
+
+        return Redirect::route('dashboard');
     }
 
     function changeTitle(Request $request) 

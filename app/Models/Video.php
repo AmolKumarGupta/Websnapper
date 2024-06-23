@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Support\Facades\Storage;
 
 class Video extends Model
 {
@@ -27,6 +28,19 @@ class Video extends Model
     protected $casts = [
         'status' => VideoStatus::class,
     ];
+
+    public static function boot() 
+    {
+        parent::boot();
+
+        self::deleting(function ($video) {
+            Storage::delete($video->path);
+            $video->thumbnail?->delete();
+            VideoView::where('video_id', $video->id)->delete();
+            VideoAccess::where('video_id', $video->id)->delete();
+            ServiceVideo::where('video_id', $video->id)->delete();
+        });
+    }
 
     public function user(): BelongsTo 
     {
