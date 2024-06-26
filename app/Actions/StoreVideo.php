@@ -39,7 +39,8 @@ class StoreVideo
             mkdir( $storagePath );
         }
 
-        $ffmpeg = FFMpeg::create();
+        /** @var FFMpeg $ffmpeg */
+        $ffmpeg = resolve(FFMpeg::class);
         $ffmpeg->open(storage_path("app/{$video->path}"))
             ->frame(TimeCode::fromSeconds(3))
             ->save( "{$storagePath}/{$thumbnailName}" );
