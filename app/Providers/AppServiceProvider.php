@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use FFMpeg\FFMpeg;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -22,6 +23,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        $this->app->bind(FFMpeg::class, function ($app) {
+            return FFMpeg::create();
+        });
     }
 }
