@@ -15,8 +15,10 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Mockery;
 use Mockery\MockInterface;
+use PHPUnit\Framework\Attributes\Group;
 use Tests\TestCase;
 
+#[Group('video')]
 class StoreVideoTest extends TestCase
 {
     use RefreshDatabase;
