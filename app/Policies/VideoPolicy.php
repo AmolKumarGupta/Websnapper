@@ -25,4 +25,9 @@ class VideoPolicy
         return (boolean) Service::where('provider', 'google')->where('user_id', $user->id)->first();
     }
 
+    public function delete(User $user, Video $video): bool 
+    {
+        return $user->id == $video->fk_user_id;
+    }
+
 }

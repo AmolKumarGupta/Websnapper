@@ -101,7 +101,7 @@ class VideoController extends Controller
 
     function destroy(Request $request, Video $video) 
     {
-        $this->authorize('edit', $video);
+        $this->authorize('delete', $video);
 
         $video->delete();
 
