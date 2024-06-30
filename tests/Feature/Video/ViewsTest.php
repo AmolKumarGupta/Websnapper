@@ -8,7 +8,9 @@ use App\Models\VideoView;
 use Database\Seeders\DatabaseSeeder;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use PHPUnit\Framework\Attributes\Group;
 
+#[Group('video')]
 class ViewsTest extends TestCase 
 {
     use RefreshDatabase;
