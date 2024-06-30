@@ -6,7 +6,9 @@ use Tests\TestCase;
 use App\Models\User;
 use Database\Seeders\RoleSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use PHPUnit\Framework\Attributes\Group;
 
+#[Group('page'), Group('user')]
 class DashboardTest extends TestCase 
 {
     use RefreshDatabase;

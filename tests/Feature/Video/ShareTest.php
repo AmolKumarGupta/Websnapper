@@ -8,7 +8,9 @@ use App\Models\Video;
 use App\Models\VideoAccess;
 use Database\Seeders\DatabaseSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use PHPUnit\Framework\Attributes\Group;
 
+#[Group('video')]
 class ShareTest extends TestCase 
 {
     use RefreshDatabase;
