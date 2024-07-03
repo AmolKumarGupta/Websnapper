@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Services\Contract\ServiceManager;
+use App\Services\Manager\ServiceManager as Manager;
 use FFMpeg\FFMpeg;
 use Illuminate\Support\ServiceProvider;
 
@@ -26,5 +28,10 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(FFMpeg::class, function ($app) {
             return FFMpeg::create();
         });
+
+        $this->app->singleton(ServiceManager::class, function ($app) {
+            return new Manager();
+        });
+
     }
 }
