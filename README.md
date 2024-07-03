@@ -34,6 +34,8 @@ install npm packages
 npm install
 ```
 
+[Install FFmpeg](https://ffmpeg.org/download.html) which is used by `php-ffmpeg/php-ffmpeg` for creating thumbnails etc
+
 copy `.env.example` to `.env` and setup your database.
 if APP_KEY is not preset then generate it
 ```
