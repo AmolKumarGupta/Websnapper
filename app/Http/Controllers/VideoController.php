@@ -21,6 +21,9 @@ class VideoController extends Controller
         // 
     }
 
+    /**
+     * @deprecated check 'record' route instead
+     */
     function store(Request $request) 
     {
         $request->validate([

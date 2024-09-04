@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react"
 import { router } from '@inertiajs/react'
+import axios from "axios";
 
 export default function Recorder() {
     const [recording, setRecording] = useState(false);
@@ -31,6 +32,9 @@ export default function Recorder() {
     }, [recording])
 
     const startRecording = async () => {
+        const INTERVAL_SEC = 5000;
+        let uid = "";
+
         try {
             const stream = await navigator.mediaDevices.getDisplayMedia({ video: true, audio: true });
             const chunk = [];
@@ -43,26 +47,57 @@ export default function Recorder() {
 
 
             mediaRecorder.current.ondataavailable = (e) => {
-                if (e.data.size > 0) {
-                    chunk.push(e.data);
+                if (e.data && e.data.size > 0) {
+                    sendBlob(e.data);
                 }
             }
 
             mediaRecorder.current.onstop = () => {
-                const recordBlob = new Blob(chunk, { type: 'video/webm' });
-
                 stream.getTracks().forEach(track => track.stop());
                 mediaRecorder.current = undefined;
-
                 setRecording(false);
-                postVideo(recordBlob);
+                finished();
             }
 
-            mediaRecorder.current.start();
+            mediaRecorder.current.start(INTERVAL_SEC);
             setRecording(true);
 
         } catch (err) {
             console.error(err);
+        }
+
+        function sendBlob(blob) {
+            const body = new FormData();
+
+            body.append('event', 'buffer');
+            body.append('uuid', uid);
+            body.append('data', blob);
+            body.append('num', new Date().valueOf());
+
+            axios.post(route('record'), body)
+                .then((res) => {
+                    uid = uid || res.data.data.uuid;
+                })
+                .catch((err) => {
+                    console.error(err);
+                });
+        }
+
+        function finished() {
+            const body = new FormData();
+
+            body.append('event', 'finished');
+            body.append('uuid', uid);
+            body.append('data', new Blob());
+            body.append('num', new Date().valueOf());
+
+            axios.post(route('record'), body)
+                .then((res) => {
+                    router.reload({preserveScroll: true})
+                })
+                .catch((err) => {
+                    console.error(err);
+                });
         }
     }
 
@@ -70,28 +105,6 @@ export default function Recorder() {
         if (mediaRecorder && mediaRecorder.current && mediaRecorder.current.state !== 'inactive') {
             mediaRecorder.current.stop();
         }
-    };
-
-    const download = (data) => {
-        if (data) {
-            const a = document.createElement('a');
-            a.href = data;
-            a.download = 'test-video.webm';
-            a.style.display = 'none';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-        }
-    };
-
-    const postVideo = (data) => {
-        let fd = new FormData();
-        fd.append('data', data);
-
-        router.post(route('videos.store'), {
-            _method: 'post',
-            video: fd.get('data'),
-        })
     };
 
     return <>
