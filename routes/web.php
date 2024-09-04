@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\DashBoardController;
 use App\Http\Controllers\{
     CheckoutController,
     ProfileController,
+    RecordController,
     ServiceController,
     UserPlanController,
     VideoController
@@ -47,6 +48,8 @@ Route::middleware(['auth', 'role:client'])->group(function () {
         Route::post('/sync', [ServiceController::class, 'sync'])->name('video.sync');
         Route::post('/lefted-video-count', [VideoController::class, 'leftedVideoCount'])->name('video.lefted.count');
     });
+
+    Route::post('/record', [RecordController::class, 'record'])->name('record');
 
     Route::get('/upgrade-plan', [UserPlanController::class, 'plans'])->name('upgrade.plan');
     Route::get('/upgrade', [CheckoutController::class, 'index'])->name('upgrade');
