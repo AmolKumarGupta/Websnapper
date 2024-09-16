@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class Video extends Model
 {
@@ -16,6 +17,7 @@ class Video extends Model
 
     protected $fillable = [
         "fk_user_id",
+        "hash",
         "title",
         "path",
         "status",
@@ -32,6 +34,10 @@ class Video extends Model
     public static function boot() 
     {
         parent::boot();
+
+        self::creating(function ($video) {
+            $video->hash = Str::replace("-", "", Str::uuid());
+        });
 
         self::deleting(function ($video) {
             Storage::delete($video->path);
