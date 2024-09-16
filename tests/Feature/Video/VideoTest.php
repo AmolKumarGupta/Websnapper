@@ -37,7 +37,7 @@ class VideoTest extends TestCase
         $user = self::$user;
 
         $user->videos->each(function ($v) use ($user) {
-            $videoLink = hashget($v->id);
+            $videoLink = $v->hash;
     
             $response = $this->actingAs($user)->get("/videos/$videoLink");
             $response->assertStatus(200);
@@ -52,7 +52,7 @@ class VideoTest extends TestCase
         $unAuthorizedUser->syncRoles(['client']);
 
         $user->videos->each(function ($v) use ($unAuthorizedUser) {
-            $videoLink = hashget($v->id);
+            $videoLink = $v->hash;
     
             $response = $this->actingAs($unAuthorizedUser)->get("/videos/$videoLink");
             $response->assertStatus(403);
@@ -67,7 +67,7 @@ class VideoTest extends TestCase
         $authorizedUser->syncRoles(['client']);
 
         $user->videos->each(function ($v) use ($user, $authorizedUser) {
-            $videoLink = hashget($v->id);
+            $videoLink = $v->hash;
 
             $this->actingAs($user)->post('/video/access', [
                 "videoId" => $v->id,

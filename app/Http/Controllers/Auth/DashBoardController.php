@@ -21,7 +21,6 @@ class DashBoardController extends Controller
             ->limit(10)
             ->get()
             ->map(function ($v) use($assetPath) {
-                $v->hash = hashget($v->id);
                 $v->thumbnail_url = $v->thumbnail ?  "{$assetPath}/{$v->thumbnail->path}" : null;
                 return $v;
             })

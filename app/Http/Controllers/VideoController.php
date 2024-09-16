@@ -45,14 +45,14 @@ class VideoController extends Controller
     function show(Request $request, string $video) 
     {
         if ($request->get('id')) {
-            $videoHash = base64_encode($request->get('id'));
             /** @var Video $video */
             $video = Video::with(['user:id,name'])->findOrFail($request->get('id'));
+            $videoHash = $video->hash;
 
         }else {
             $videoHash = $video;
             /** @var Video $video */
-            $video = Video::with(['user:id,name'])->findOrFail(hashget($videoHash, true));
+            $video = Video::with(['user:id,name'])->where('hash', $videoHash)->first();
         }
 
         $this->authorize($video);
@@ -79,12 +79,12 @@ class VideoController extends Controller
 
     function play(Request $request, string $video) {
         if ($request->get('id')) {
-            $videoHash = base64_encode($request->get('id'));
             $video = Video::findOrFail($request->get('id'));
+            $videoHash = $video->hash;
 
         }else {
             $videoHash = $video;
-            $video = Video::findOrFail(hashget($videoHash, true));
+            $video = Video::where('hash', $videoHash)->first();
         }
 
         $this->authorize('view', $video);
