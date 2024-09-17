@@ -1,3 +1,4 @@
+import CreateFolder from '@/Components/CreateFolder';
 import Video from '@/Components/Video';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, router } from '@inertiajs/react';
@@ -27,7 +28,8 @@ export default function Dashboard({ auth, usedVideos, totalVideos, videos, error
                     <div className="relative bg-white overflow-hidden shadow-sm sm:rounded-t-lg">
                         <div className="p-6 text-gray-900">My Library</div>
 
-                        <div className="absolute top-1/2 -translate-y-1/2 right-4 flex items-center justify-center">
+                        <div className="absolute top-1/2 -translate-y-1/2 right-4 flex gap-2 items-center justify-center">
+                            <CreateFolder userId={auth.user.id} parentId={null} />
                             <button
                                 type="button"
                                 className="rounded-2xl bg-indigo-400 bg-opacity-80 px-4 py-2 text-sm font-medium text-white hover:bg-opacity-70 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
