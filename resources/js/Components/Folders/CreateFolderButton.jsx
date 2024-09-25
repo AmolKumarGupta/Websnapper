@@ -1,8 +1,8 @@
 import { useState } from "react";
-import PlusCircle from "./Icons/PlusCircle";
-import FolderForm from "./Folders/FolderForm";
+import PlusCircle from "../Icons/PlusCircle";
+import FolderForm from "./FolderForm";
 
-export default function CreateFolder({ userId, parentId }) {
+export default function CreateFolderButton({ userId, parentId }) {
     const [open, setOpen] = useState(false);
 
     return <>

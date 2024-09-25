@@ -1,4 +1,5 @@
-import CreateFolder from '@/Components/CreateFolder';
+import CreateFolder from '@/Components/Folders/CreateFolder';
+import CreateFolderButton from '@/Components/Folders/CreateFolderButton';
 import Video from '@/Components/Video';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, router } from '@inertiajs/react';
@@ -29,7 +30,7 @@ export default function Dashboard({ auth, usedVideos, totalVideos, videos, error
                         <div className="p-6 text-gray-900">My Library</div>
 
                         <div className="absolute top-1/2 -translate-y-1/2 right-4 flex gap-2 items-center justify-center">
-                            <CreateFolder userId={auth.user.id} parentId={null} />
+                            <CreateFolderButton userId={auth.user.id} parentId={null} />
                             <button
                                 type="button"
                                 className="rounded-2xl bg-indigo-400 bg-opacity-80 px-4 py-2 text-sm font-medium text-white hover:bg-opacity-70 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
@@ -39,13 +40,19 @@ export default function Dashboard({ auth, usedVideos, totalVideos, videos, error
                         </div>
                     </div>
 
-                    <div className="relative p-6 pt-3 bg-white shadow-sm sm:rounded-b-lg">
+                    <main className="relative p-6 pt-3 bg-white shadow-sm sm:rounded-b-lg">
+                        <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 grid-flow-row gap-4'>
+                            <CreateFolder userId={auth.user.id} parentId={null} />
+                        </div>
+
+                        <hr className='my-4' />
+
                         {
                             !usedVideos
                             ? <div className="my-16 text-gray-400 font-medium text-center text-2xl font-sans">No videos</div>
                             : <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 grid-flow-row gap-4'>{videoList}</div>
                         }
-                    </div>
+                    </main>
                 </div>
             </div>
         </AuthenticatedLayout>
