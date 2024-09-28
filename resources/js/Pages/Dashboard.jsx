@@ -1,12 +1,12 @@
 import CreateFolder from '@/Components/Folders/CreateFolder';
 import CreateFolderButton from '@/Components/Folders/CreateFolderButton';
+import Folder from '@/Components/Folders/Folder';
 import Video from '@/Components/Video';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, router } from '@inertiajs/react';
 import { useEffect, useMemo } from 'react';
 
-export default function Dashboard({ auth, usedVideos, totalVideos, videos, error }) {
-
+export default function Dashboard({ auth, usedVideos, totalVideos, videos, folders, error }) {
     useEffect(() => {
         if (error) {
             alert(error);
@@ -43,9 +43,10 @@ export default function Dashboard({ auth, usedVideos, totalVideos, videos, error
                     <main className="relative p-6 pt-3 bg-white shadow-sm sm:rounded-b-lg">
                         <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 grid-flow-row gap-4'>
                             <CreateFolder userId={auth.user.id} parentId={null} />
+                            { folders.map((f) => <Folder model={f} key={f.id} />) }
                         </div>
 
-                        <hr className='my-4' />
+                        <hr className='my-8' />
 
                         {
                             !usedVideos

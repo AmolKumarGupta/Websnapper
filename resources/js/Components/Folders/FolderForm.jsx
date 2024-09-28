@@ -11,7 +11,8 @@ export default function FolderForm({ open, setOpen, userId, parentId }) {
 
     function process(e) {
         post(route('folders.store'), { 
-            onSuccess: () => setOpen(false)
+            onSuccess: () => setOpen(false),
+            only: ['folders']
         })
     }
 

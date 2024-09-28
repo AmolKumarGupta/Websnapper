@@ -15,9 +15,9 @@ class DashBoardController extends Controller
         $user = auth()->user();
         
         $assetPath = asset(config('thumbnail.asset'));
-        $totalVideos = $user->totalVideos();
-        $usedVideos = $user->loadCount('videos')->videos_count;
-        $videos = $user->videos()->with('thumbnail')
+        $totalVideos = fn() => $user->totalVideos();
+        $usedVideos = fn() => $user->loadCount('videos')->videos_count;
+        $videos = fn() => $user->videos()->with('thumbnail')
             ->limit(10)
             ->get()
             ->map(function ($v) use($assetPath) {
@@ -26,7 +26,11 @@ class DashBoardController extends Controller
             })
             ->toArray();
 
-        return Inertia::render('Dashboard', compact('usedVideos', 'totalVideos', 'videos'));
+        $folders = fn() => $user->folders()
+            ->where('parent_id', null)->get()
+            ->append('date');
+
+        return Inertia::render('Dashboard', compact('usedVideos', 'totalVideos', 'videos', 'folders'));
     }
 
 }

@@ -90,4 +90,9 @@ class Video extends Model
         return $payload["link"] ?? "";
     }
 
+    public function folder(): BelongsTo
+    {
+        return $this->belongsTo(Folder::class);
+    }
+
 }
