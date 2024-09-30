@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Folder;
 use App\Models\User;
 use App\Models\Video;
 use Illuminate\Http\Request;
@@ -10,17 +11,15 @@ class FolderController extends Controller
 {
     
     public function store(Request $request) {
+        $this->authorize('create', Folder::class);
+
         $request->validate([
-            "userId" => "required",
             "parentId" => "nullable",
             "folder" => "required|string",
         ]);
 
         /** @var User $user  */
-        $user = User::find($request->userId);
-        if (! $user) {
-            return back()->with('error', 'user is not found');
-        }
+        $user = auth()->user();
         
         $user->folders()->create([
             "name" => $request->folder,
