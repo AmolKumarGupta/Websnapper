@@ -26,7 +26,7 @@ class Folder extends Model
         parent::boot();
 
         self::creating(function ($model) {
-            $model->hash = bin2hex(openssl_random_pseudo_bytes(3));
+            $model->hash = $model->getUniqHash();
         });
     }
 
@@ -43,6 +43,40 @@ class Folder extends Model
 
     public function videos(): HasMany {
         return $this->hasMany(Video::class);
+    }
+
+    public static function findBySlug(string $slug) {
+        $components = explode("~", $slug);
+        $index = array_key_last($components);
+        $hash = $components[$index];
+
+        return Folder::where('hash', $hash)->first();
+    }
+
+    /**
+     * generate unique hash under three attempts
+     */
+    protected function getUniqHash() {
+        $attempts = 0;
+        $exists = function ($hash) use ($attempts) {
+            if ($attempts > 3) {
+                throw new \Exception(
+                    'Folder::getUniqHash does not have enough '.
+                    'entropy and failed URL generation. This method should generate a very random ID.'
+                );
+            }
+
+            return Folder::where('hash', $hash)->exists();
+        };
+
+        
+        do {
+            $hash = bin2hex(openssl_random_pseudo_bytes(3));
+            $attempts++;
+
+        }while($exists($hash));
+
+        return $hash;
     }
 
 }
