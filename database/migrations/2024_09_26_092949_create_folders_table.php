@@ -17,6 +17,7 @@ return new class extends Migration
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
             $table->unsignedBigInteger('parent_id')->nullable();
+            $table->char('hash', 6)->index();
             $table->string('name');
             $table->timestamps();
         });

@@ -21,6 +21,15 @@ class Folder extends Model
         "date",
     ];
 
+    public static function boot() 
+    {
+        parent::boot();
+
+        self::creating(function ($model) {
+            $model->hash = bin2hex(openssl_random_pseudo_bytes(3));
+        });
+    }
+
     protected function date(): Attribute
     {
         return new Attribute(
