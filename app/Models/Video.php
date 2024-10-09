@@ -17,6 +17,7 @@ class Video extends Model
 
     protected $fillable = [
         "fk_user_id",
+        "folder_id",
         "hash",
         "title",
         "path",

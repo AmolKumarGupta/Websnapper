@@ -37,7 +37,7 @@ class DashBoardController extends Controller
             ->where('parent_id', $folder?->id)->get()
             ->append('date');
 
-        return Inertia::render('Dashboard', compact('usedVideos', 'totalVideos', 'videos', 'folders'));
+        return Inertia::render('Dashboard', compact('usedVideos', 'totalVideos', 'videos', 'folder', 'folders'));
     }
 
 }

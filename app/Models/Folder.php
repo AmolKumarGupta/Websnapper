@@ -17,6 +17,7 @@ class Folder extends Model
     protected $visible = [
         "id",
         "parent_id",
+        "hash",
         "name",
         "date",
     ];
