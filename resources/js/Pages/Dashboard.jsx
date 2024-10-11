@@ -1,9 +1,9 @@
 import CreateFolder from '@/Components/Folders/CreateFolder';
-import CreateFolderButton from '@/Components/Folders/CreateFolderButton';
 import Folder from '@/Components/Folders/Folder';
 import Video from '@/Components/Video';
+import { slugify } from '@/helpers';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head, router } from '@inertiajs/react';
+import { Head, Link } from '@inertiajs/react';
 import { useEffect, useMemo } from 'react';
 
 export default function Dashboard({ 
@@ -35,10 +35,17 @@ export default function Dashboard({
             <div className="py-8">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <div className="relative bg-white overflow-hidden shadow-sm sm:rounded-t-lg">
-                        <div className="p-6 text-gray-900">My Library {folder ? ` / ${folder.name}` : ``}</div>
+                        <div className="p-6 text-gray-900">
+                            { 
+                                (folder && folder.parent) 
+                                ? <Link href={`?folder=${slugify(folder.parent.name)}~${folder.parent.hash}`}>{folder.parent.name}</Link> 
+                                : <Link href='dashboard'>My Library</Link>
+                            }
+
+                            { folder ? ` / ${folder.name}` : `` }
+                        </div>
 
                         <div className="absolute top-1/2 -translate-y-1/2 right-4 flex gap-2 items-center justify-center">
-                            <CreateFolderButton userId={auth.user.id} parentId={folder?.id} />
                             <button
                                 type="button"
                                 className="rounded-2xl bg-indigo-400 bg-opacity-80 px-4 py-2 text-sm font-medium text-white hover:bg-opacity-70 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"

@@ -19,6 +19,8 @@ class DashBoardController extends Controller
         $folder = $request->has('folder')
             ? Folder::findBySlug($request->get('folder'))
             : null;
+
+        if ($folder) $folder->load('parent');
         
         $assetPath = asset(config('thumbnail.asset'));
         $totalVideos = fn() => $user->totalVideos();
