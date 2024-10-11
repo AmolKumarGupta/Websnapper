@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\DashBoardController;
 use App\Http\Controllers\{
     CheckoutController,
+    FolderController,
     ProfileController,
     RecordController,
     ServiceController,
@@ -50,6 +51,8 @@ Route::middleware(['auth', 'role:client'])->group(function () {
     });
 
     Route::post('/record', [RecordController::class, 'record'])->name('record');
+
+    Route::resource('folders', FolderController::class);
 
     Route::get('/upgrade-plan', [UserPlanController::class, 'plans'])->name('upgrade.plan');
     Route::get('/upgrade', [CheckoutController::class, 'index'])->name('upgrade');

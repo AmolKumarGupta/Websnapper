@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Video;
 use App\Models\Thumbnail;
 use App\Enums\VideoStatus;
+use App\Models\Folder;
 use Illuminate\Support\Str;
 use FFMpeg\Coordinate\TimeCode;
 use Illuminate\Support\Facades\Storage;
@@ -25,11 +26,16 @@ class StoreVideo
             throw new Exception("File not saved");
         }
 
+        $folder = request()->has('folder_slug')
+            ? Folder::findBySlug(request()->get('folder_slug'))
+            : null;
+
         $video = Video::create([
             "fk_user_id" => $user->id,
             "title" => now()->format("d M Y, H:i:s"),
             "path" => $path ."/". $file->hashName(),
             "status" => VideoStatus::Active,
+            "folder_id" =>  $folder?->id 
         ]);
 
         $thumbnailName = Str::uuid() . ".jpeg";

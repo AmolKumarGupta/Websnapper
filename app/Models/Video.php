@@ -17,6 +17,7 @@ class Video extends Model
 
     protected $fillable = [
         "fk_user_id",
+        "folder_id",
         "hash",
         "title",
         "path",
@@ -88,6 +89,11 @@ class Video extends Model
 
         $payload = json_decode($model->payload, true);
         return $payload["link"] ?? "";
+    }
+
+    public function folder(): BelongsTo
+    {
+        return $this->belongsTo(Folder::class);
     }
 
 }

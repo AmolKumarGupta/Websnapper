@@ -86,10 +86,14 @@ export default function Recorder() {
         function finished() {
             const body = new FormData();
 
+            const param = new URLSearchParams(window.location.search);
+            const folderSlug = param.get('folder');
+
             body.append('event', 'finished');
             body.append('uuid', uid);
             body.append('data', new Blob());
             body.append('num', new Date().valueOf());
+            body.append('folder_slug', folderSlug);
 
             axios.post(route('record'), body)
                 .then((res) => {

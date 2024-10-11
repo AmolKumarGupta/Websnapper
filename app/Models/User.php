@@ -71,4 +71,9 @@ class User extends Authenticatable
         return $plan->videos ?? 1;
     }
 
+    public function folders(): HasMany 
+    {
+        return $this->hasMany(Folder::class);
+    }
+
 }
