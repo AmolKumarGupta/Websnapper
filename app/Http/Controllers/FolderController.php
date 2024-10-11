@@ -27,4 +27,9 @@ class FolderController extends Controller
         ]);
     }
 
+    public function destroy(Request $request, Folder $folder) {
+        $this->authorize('delete', $folder);
+        $folder->delete();
+    }
+
 }

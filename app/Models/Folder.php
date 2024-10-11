@@ -31,6 +31,11 @@ class Folder extends Model
         self::creating(function ($model) {
             $model->hash = $model->getUniqHash();
         });
+
+        self::deleting(function ($model) {
+            /** @todo expensive operation */
+            $model->videos->each(fn($video) => $video->delete());
+        });
     }
 
     protected function date(): Attribute
